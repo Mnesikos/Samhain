@@ -1,4 +1,4 @@
-package com.github.mnesikos.samhain.server.entity;
+package com.github.mnesikos.samhain.common.entity;
 
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
