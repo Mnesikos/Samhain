@@ -1,10 +1,16 @@
 package com.github.mnesikos.samhain;
 
+import com.github.mnesikos.samhain.client.ClientProxy;
+import com.github.mnesikos.samhain.common.CommonProxy;
+import com.github.mnesikos.samhain.init.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -16,10 +22,10 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.stream.Collectors;
 
-// The value here should match an entry in the META-INF/mods.toml file
 @Mod(value = Ref.MOD_ID)
 public class Samhain {
-    // Directly reference a log4j logger.
+    public static IProxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(), () -> () -> new CommonProxy());
+
     private static final Logger LOGGER = LogManager.getLogger(Ref.MOD_NAME);
 
     public static Samhain INSTANCE;
@@ -37,24 +43,16 @@ public class Samhain {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    private void commonSetup(final FMLCommonSetupEvent event)
-    {
-        // some preinit code
-        LOGGER.info("HELLO FROM PREINIT");
-        LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
+    private void commonSetup(final FMLCommonSetupEvent event) {
+        proxy.init();
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
-        // do something that can only be done on the client
-        LOGGER.info("Got game settings {}", event.getMinecraftSupplier().get().gameSettings);
+
     }
 
-    private void interModProcess(final InterModProcessEvent event)
-    {
-        // some example code to receive and process InterModComms from other mods
-        LOGGER.info("Got IMC {}", event.getIMCStream().
-                map(m->m.getMessageSupplier().get()).
-                collect(Collectors.toList()));
+    private void interModProcess(final InterModProcessEvent event) {
+
     }
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent

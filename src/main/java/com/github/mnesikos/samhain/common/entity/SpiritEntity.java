@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 public class SpiritEntity extends AnimalEntity {
 
-    protected SpiritEntity(EntityType<? extends AnimalEntity> type, World world) {
+    public SpiritEntity(EntityType<? extends AnimalEntity> type, World world) {
         super(type, world);
     }
 

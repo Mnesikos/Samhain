@@ -1,3 +1,6 @@
 {
-  "block.samhain.crimson_king_maple_log": "Crimson King Maple Log"
+  "block.samhain.crimson_king_maple_log": "Crimson King Maple Log",
+
+  "_comment": "Creative Tabs",
+  "itemGroup.samhain": "Samhain"
 }

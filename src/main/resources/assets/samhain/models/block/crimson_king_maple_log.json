@@ -2,7 +2,7 @@
   "parent": "block/cube_all",
   "textures": {
     "all": "samhain:block/crimson_king_maple_log",
-    "top": "samhain:block/crimson_king_maple_log_top",
-    "bottom": "samhain:block/crimson_king_maple_log_top"
+    "down": "samhain:block/crimson_king_maple_log_top",
+    "up": "samhain:block/crimson_king_maple_log_top"
   }
 }
