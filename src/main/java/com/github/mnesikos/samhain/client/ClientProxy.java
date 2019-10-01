@@ -10,7 +10,7 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 public class ClientProxy implements IProxy {
     @Override
     public void init() {
-        // todo RenderingRegistry.registerEntityRenderingHandler(SpiritEntity.class, SpiritRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(SpiritEntity.class, SpiritRenderer::new);
     }
 
     @Override
