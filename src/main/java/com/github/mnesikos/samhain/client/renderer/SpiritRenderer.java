@@ -33,6 +33,38 @@ public class SpiritRenderer extends MobRenderer<SpiritEntity, CowModel<SpiritEnt
     }
 
     protected ResourceLocation getEntityTexture(SpiritEntity p_110775_1_) {
-        return COW_TEXTURES;
+        if(p_110775_1_.getSpiritType() == 1) {
+            return COW_TEXTURES;
+        }
+        if(p_110775_1_.getSpiritType() == 2) {
+            return WOLF_TEXTURES;
+        }
+        if(p_110775_1_.getSpiritType() == 3) {
+            return PARROT_TEXTURES[1];
+        }
+        if(p_110775_1_.getSpiritType() == 4) {
+            return FOX_SNOW_TEXTURE;
+        }
+        if(p_110775_1_.getSpiritType() == 5) {
+            return PANDA_TEXTURE;
+        }
+        if(p_110775_1_.getSpiritType() == 6) {
+            return VILLAGER_TEXTURE;
+        }
+        if(p_110775_1_.getSpiritType() == 7) {
+            return PIG_TEXTURE;
+        }
+        if(p_110775_1_.getSpiritType() == 8) {
+            return CHICKEN_TEXTURES;
+        }
+        if(p_110775_1_.getSpiritType() == 9) {
+            return SHEARED_SHEEP_TEXTURE;
+        }
+        if(p_110775_1_.getSpiritType() == 10) {
+            return SHEARED_SHEEP_TEXTURE;
+        }
+        else{
+            return COW_TEXTURES;
+        }
     }
 }

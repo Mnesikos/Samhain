@@ -2,33 +2,25 @@ package com.github.mnesikos.samhain.common.entity;
 
 import com.github.mnesikos.samhain.common.entity.goals.FollowEntityGoal;
 import com.github.mnesikos.samhain.init.ModEntities;
-import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.CatEntity;
-import net.minecraft.entity.passive.CowEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.DyeColor;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.*;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.Feature;
-
 import javax.annotation.Nullable;
 
 public class SpiritEntity extends AnimalEntity {
 
-    private static final DataParameter<Integer> SPIRIT_TYPE = EntityDataManager.createKey(SpiritEntity.class, DataSerializers.VARINT);;
+    private static final DataParameter<Integer> SPIRIT_TYPE = EntityDataManager.createKey(SpiritEntity.class, DataSerializers.VARINT);
 
     public SpiritEntity(EntityType<? extends AnimalEntity> type, World world) {
         super(type, world);
@@ -57,13 +49,13 @@ public class SpiritEntity extends AnimalEntity {
 
     public void readAdditional(CompoundNBT p_70037_1_) {
         super.readAdditional(p_70037_1_);
-        this.setCatType(p_70037_1_.getInt("SpiritType"));
+        this.setSpiritType(p_70037_1_.getInt("SpiritType"));
     }
 
     @Nullable
     public ILivingEntityData onInitialSpawn(IWorld p_213386_1_, DifficultyInstance p_213386_2_, SpawnReason p_213386_3_, @Nullable ILivingEntityData p_213386_4_, @Nullable CompoundNBT p_213386_5_) {
         p_213386_4_ = super.onInitialSpawn(p_213386_1_, p_213386_2_, p_213386_3_, p_213386_4_, p_213386_5_);
-        this.setCatType(this.rand.nextInt(10));
+        this.setSpiritType(this.rand.nextInt(11)+1);
 
         return p_213386_4_;
     }
@@ -90,6 +82,40 @@ public class SpiritEntity extends AnimalEntity {
     }*/
 
     @Override
+    protected void collideWithEntity(Entity entityIn) {
+        if(entityIn instanceof SpiritEntity){
+            super.collideWithEntity(entityIn);
+        }
+    }
+
+    @Override
+    public void onCollideWithPlayer(PlayerEntity entityIn) {
+    }
+
+    @Override
+    public boolean canBeCollidedWith() {
+        return false;
+    }
+
+    @Override
+    public void livingTick() {
+        if(this.ticksExisted >= 1200){
+            if(this.ticksExisted == 6000){
+                this.remove();
+            }
+            else{
+                if(this.ticksExisted % 20 == 0){
+                    if(this.rand.nextInt(100) + 1 == 1){
+                        this.remove();
+                    }
+                }
+            }
+        }
+        super.livingTick();
+    }
+
+
+    @Override
     public boolean isInWater() {
         return false;
     }
@@ -98,17 +124,17 @@ public class SpiritEntity extends AnimalEntity {
         return (Integer)this.dataManager.get(SPIRIT_TYPE);
     }
 
-    public void setCatType(int p_213422_1_) {
+    public void setSpiritType(int p_213422_1_) {
         this.dataManager.set(SPIRIT_TYPE, p_213422_1_);
     }
 
     public SpiritEntity createChild(AgeableEntity p_90011_1_) {
-        SpiritEntity lvt_2_1_ = (SpiritEntity)ModEntities.SPIRIT.create(this.world);
-        if (p_90011_1_ instanceof CatEntity) {
+        SpiritEntity lvt_2_1_ = ModEntities.SPIRIT.create(this.world);
+        if (p_90011_1_ instanceof SpiritEntity) {
             if (this.rand.nextBoolean()) {
-                lvt_2_1_.setCatType(this.getSpiritType());
+                lvt_2_1_.setSpiritType(this.getSpiritType());
             } else {
-                lvt_2_1_.setCatType(((CatEntity) p_90011_1_).getCatType());
+                lvt_2_1_.setSpiritType(((SpiritEntity) p_90011_1_).getSpiritType());
             }
         }
         return lvt_2_1_;
