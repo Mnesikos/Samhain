@@ -2,69 +2,36 @@ package com.github.mnesikos.samhain.client.renderer;
 
 import com.github.mnesikos.samhain.common.entity.SpiritEntity;
 import com.mojang.blaze3d.platform.GlStateManager;
+import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.model.CowModel;
+import net.minecraft.entity.AgeableEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class SpiritRenderer extends MobRenderer<SpiritEntity, CowModel<SpiritEntity>> {
-    private static final ResourceLocation COW_TEXTURES = new ResourceLocation("textures/entity/cow/cow.png");
-    private static final ResourceLocation WOLF_TEXTURES = new ResourceLocation("textures/entity/wolf/wolf.png");
-    public static final ResourceLocation[] PARROT_TEXTURES = new ResourceLocation[]{new ResourceLocation("textures/entity/parrot/parrot_red_blue.png"), new ResourceLocation("textures/entity/parrot/parrot_blue.png"), new ResourceLocation("textures/entity/parrot/parrot_green.png"), new ResourceLocation("textures/entity/parrot/parrot_yellow_blue.png"), new ResourceLocation("textures/entity/parrot/parrot_grey.png")};
-    private static final ResourceLocation FOX_SNOW_TEXTURE = new ResourceLocation("textures/entity/fox/snow_fox.png");
-    private static final ResourceLocation PANDA_TEXTURE = new ResourceLocation("textures/entity/panda/worried_panda.png");
-    private static final ResourceLocation VILLAGER_TEXTURE = new ResourceLocation("textures/entity/villager/villager.png");
-    private static final ResourceLocation PIG_TEXTURE = new ResourceLocation("textures/entity/pig/pig.png");
-    private static final ResourceLocation SHEARED_SHEEP_TEXTURE = new ResourceLocation("textures/entity/sheep/sheep.png");
-    private static final ResourceLocation SHEEP_FUR = new ResourceLocation("textures/entity/sheep/sheep_fur.png");
-    private static final ResourceLocation CHICKEN_TEXTURES = new ResourceLocation("textures/entity/chicken.png");
+public class SpiritRenderer extends EntityRenderer<SpiritEntity> {
 
     public SpiritRenderer(EntityRendererManager p_i50961_1_) {
-        super(p_i50961_1_, new CowModel<>(), 0.7F);
+        super(p_i50961_1_);
     }
 
     @Override
-    protected void preRenderCallback(SpiritEntity p_77041_1_, float p_77041_2_) {
-        GlStateManager.enableBlend();
-        GlStateManager.color4f(0.49803921568f, 0.70588235294f, 1, 0.65F);
+    public void doRender(SpiritEntity spirit, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_) {
+        super.doRender(spirit, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);
+        if(spirit.base != null) {
+            EntityRenderer<AgeableEntity> renderer = getRenderManager().getRenderer(spirit.base);
+            if (renderer != null) {
+                GlStateManager.enableBlend();
+                GlStateManager.color4f(0.49803921568f, 0.70588235294f, 1, 0.65F);
+                renderer.doRender(spirit.base, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);
+            }
+        }
     }
 
     protected ResourceLocation getEntityTexture(SpiritEntity p_110775_1_) {
-        if(p_110775_1_.getSpiritType() == 1) {
-            return COW_TEXTURES;
-        }
-        if(p_110775_1_.getSpiritType() == 2) {
-            return WOLF_TEXTURES;
-        }
-        if(p_110775_1_.getSpiritType() == 3) {
-            return PARROT_TEXTURES[1];
-        }
-        if(p_110775_1_.getSpiritType() == 4) {
-            return FOX_SNOW_TEXTURE;
-        }
-        if(p_110775_1_.getSpiritType() == 5) {
-            return PANDA_TEXTURE;
-        }
-        if(p_110775_1_.getSpiritType() == 6) {
-            return VILLAGER_TEXTURE;
-        }
-        if(p_110775_1_.getSpiritType() == 7) {
-            return PIG_TEXTURE;
-        }
-        if(p_110775_1_.getSpiritType() == 8) {
-            return CHICKEN_TEXTURES;
-        }
-        if(p_110775_1_.getSpiritType() == 9) {
-            return SHEARED_SHEEP_TEXTURE;
-        }
-        if(p_110775_1_.getSpiritType() == 10) {
-            return SHEARED_SHEEP_TEXTURE;
-        }
-        else{
-            return COW_TEXTURES;
-        }
+        return null;
     }
 }

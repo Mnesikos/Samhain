@@ -1,40 +1,48 @@
 package com.github.mnesikos.samhain.init;
 
-import com.github.mnesikos.samhain.Ref;
 import com.github.mnesikos.samhain.common.entity.BlackPigEntity;
+import com.github.mnesikos.samhain.common.entity.SidheEntity;
 import com.github.mnesikos.samhain.common.entity.SpiritEntity;
-import com.github.mnesikos.samhain.common.entity.goals.SidheEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ObjectHolder;
+import net.minecraft.item.Item;
+import net.minecraft.item.SpawnEggItem;
 
-@Mod.EventBusSubscriber(modid = Ref.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-@ObjectHolder(Ref.MOD_ID)
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 public class ModEntities {
-    @ObjectHolder(Ref.MOD_ID + ":spirit")
-    public static EntityType<SpiritEntity> SPIRIT;
-    @ObjectHolder(Ref.MOD_ID + ":sidhe")
-    public static EntityType<SidheEntity> SIDHE;
-    @ObjectHolder(Ref.MOD_ID + ":black_pig")
-    public static EntityType<SidheEntity> BLACK_PIG;
+    public static final List<EntityType<?>> LIST = new ArrayList<>();
+    private static final List<EggEntry> EGGS = new ArrayList<>();
+    public static final EntityType<SpiritEntity> SPIRIT = create(SpiritEntity::new, EntityClassification.AMBIENT, 1, 1, 0, 0, "spirit");
+    public static final EntityType<SidheEntity> SIDHE = create(SidheEntity::new, EntityClassification.MONSTER, 1, 1, 0, 0, "sidhe");
+    public static final EntityType<BlackPigEntity> BLACK_PIG = create(BlackPigEntity::new, EntityClassification.CREATURE, 1, 1, 0 , 0, "black_pig");
 
+    //todo set the egg colors and sizes for all mobs
+    private static <T extends Entity> EntityType<T> create(EntityType.IFactory<T> factoryIn, EntityClassification classificationIn, float width, float height, int primary, int secondary, String name) {
+        EntityType<T> type = EntityType.Builder.create(factoryIn, classificationIn).size(width, height).setShouldReceiveVelocityUpdates(false).build(name);
+        type.setRegistryName(name);
+        LIST.add(type);
+        EGGS.add(new EggEntry(type, primary, secondary));
+        return type;
+    }
 
-    @SubscribeEvent
-    public static void registerEntities(final RegistryEvent.Register<EntityType<?>> event) {
-        event.getRegistry().register(EntityType.Builder.create(SpiritEntity::new, EntityClassification.CREATURE)
-                .size(1, 1)
-                .setShouldReceiveVelocityUpdates(false)
-                .build("spirit").setRegistryName(Ref.MOD_ID, "spirit"));
-        event.getRegistry().register(EntityType.Builder.create(SidheEntity::new, EntityClassification.CREATURE)
-                .size(1, 1)
-                .setShouldReceiveVelocityUpdates(false)
-                .build("sidhe").setRegistryName(Ref.MOD_ID, "sidhe"));
-        event.getRegistry().register(EntityType.Builder.create(BlackPigEntity::new, EntityClassification.CREATURE)
-                .size(1, 1)
-                .setShouldReceiveVelocityUpdates(true)
-                .build("black_pig").setRegistryName(Ref.MOD_ID, "black_pig"));
+    static void registerEggs() {
+        for(EggEntry egg : EGGS) ModItems.LIST.add(new SpawnEggItem(egg.type, egg.primary, egg.secondary, EggEntry.properties).setRegistryName(Objects.requireNonNull(egg.type.getRegistryName()).getPath() + "_spawn_egg"));
+    }
+
+    private static class EggEntry {
+        private static final Item.Properties properties = new Item.Properties().group(ModItems.GROUP);
+        private final EntityType<?> type;
+        private final int primary;
+        private final int secondary;
+
+        private EggEntry(EntityType<?> type, int primary, int secondary) {
+            this.type = type;
+            this.primary = primary;
+            this.secondary = secondary;
+        }
     }
 }

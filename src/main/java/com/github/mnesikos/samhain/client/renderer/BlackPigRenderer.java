@@ -1,6 +1,6 @@
 package com.github.mnesikos.samhain.client.renderer;
 
-import com.github.mnesikos.samhain.Ref;
+import com.github.mnesikos.samhain.Samhain;
 import com.github.mnesikos.samhain.client.model.BlackPigModel;
 import com.github.mnesikos.samhain.common.entity.BlackPigEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -13,7 +13,7 @@ import javax.annotation.Nullable;
 
 @OnlyIn(Dist.CLIENT)
 public class BlackPigRenderer extends MobRenderer<BlackPigEntity, BlackPigModel<BlackPigEntity>> {
-    private static final ResourceLocation black_pig = new ResourceLocation(Ref.MOD_ID + ":textures/entity/lady_gwen/black_pig.png");
+    private static final ResourceLocation black_pig = new ResourceLocation(Samhain.MOD_ID, "textures/entity/lady_gwen/black_pig.png");
 
     public BlackPigRenderer(EntityRendererManager manager) {
         super(manager, new BlackPigModel<>(), 0.7F);

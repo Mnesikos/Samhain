@@ -1,4 +1,4 @@
-package com.github.mnesikos.samhain.common.entity.goals;
+package com.github.mnesikos.samhain.common.entity;
 
 import net.minecraft.entity.*;
 import net.minecraft.entity.monster.IMob;
