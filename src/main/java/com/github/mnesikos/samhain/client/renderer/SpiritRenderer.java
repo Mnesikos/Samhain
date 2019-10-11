@@ -23,7 +23,7 @@ public class SpiritRenderer extends MobRenderer<SpiritEntity, CowModel<SpiritEnt
     private static final ResourceLocation CHICKEN_TEXTURES = new ResourceLocation("textures/entity/chicken.png");
 
     public SpiritRenderer(EntityRendererManager p_i50961_1_) {
-        super(p_i50961_1_, new CowModel(), 0.7F);
+        super(p_i50961_1_, new CowModel<>(), 0.7F);
     }
 
     @Override

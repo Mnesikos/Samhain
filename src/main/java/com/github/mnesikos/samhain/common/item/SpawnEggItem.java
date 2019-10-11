@@ -5,6 +5,7 @@ import com.github.mnesikos.samhain.init.ModEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -19,12 +20,14 @@ import net.minecraft.world.spawner.AbstractSpawner;
 
 import java.util.Objects;
 
-public class SpiritEggItem extends Item {
-    public SpiritEggItem() {
+public class SpawnEggItem extends Item {
+    EntityType type;
+    public SpawnEggItem(EntityType type) {
         super(new Item.Properties()
                 .maxStackSize(1)
                 .group(Samhain.proxy.itemGroup));
-        setRegistryName("spirit_egg");
+        setRegistryName("spawn_egg");
+        this.type = type;
     }
 
     @Override
@@ -42,7 +45,7 @@ public class SpiritEggItem extends Item {
                 TileEntity tileentity = world.getTileEntity(blockpos);
                 if (tileentity instanceof MobSpawnerTileEntity) {
                     AbstractSpawner abstractspawner = ((MobSpawnerTileEntity)tileentity).getSpawnerBaseLogic();
-                    abstractspawner.setEntityType(ModEntities.SPIRIT);
+                    abstractspawner.setEntityType(ModEntities.SIDHE);
                     tileentity.markDirty();
                     world.notifyBlockUpdate(blockpos, blockstate, blockstate, 3);
                     itemstack.shrink(1);
@@ -57,7 +60,7 @@ public class SpiritEggItem extends Item {
                 blockpos1 = blockpos.offset(direction);
             }
 
-            if (ModEntities.SPIRIT.spawn(world, itemstack, context.getPlayer(), blockpos1, SpawnReason.SPAWN_EGG, true, !Objects.equals(blockpos, blockpos1) && direction == Direction.UP) != null) {
+            if (ModEntities.SIDHE.spawn(world, itemstack, context.getPlayer(), blockpos1, SpawnReason.SPAWN_EGG, true, !Objects.equals(blockpos, blockpos1) && direction == Direction.UP) != null) {
                 itemstack.shrink(1);
             }
 
