@@ -5,7 +5,6 @@ import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.pathfinding.PathNodeType;
-import net.minecraft.util.math.Vec3d;
 
 import java.util.EnumSet;
 import java.util.List;

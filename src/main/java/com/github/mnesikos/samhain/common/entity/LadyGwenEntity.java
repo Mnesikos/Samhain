@@ -34,15 +34,20 @@ public class LadyGwenEntity extends CreatureEntity {
     @Override
     protected void registerData() {
         super.registerData();
-        this.getDataManager().register(VARIANT, 0);
+        this.dataManager.register(VARIANT, 0);
     }
 
     @Nullable
     @Override
     public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficultyInstance, SpawnReason spawnReason, @Nullable ILivingEntityData entityData, @Nullable CompoundNBT nbt) {
         this.setVariant(this.getRNG().nextInt(maxVariants));
-        //todo check spawn of black pig with Lady Gwen...
-        ModEntities.BLACK_PIG.spawn(this.world, null, null, this.getPosition(), spawnReason, false, false);
+
+        BlackPigEntity pig = (BlackPigEntity) ModEntities.BLACK_PIG.spawn(this.world, null, null, this.getPosition().add(1.0F, 1.0F, 1.0F), spawnReason, false, false);
+        if (pig != null) {
+            pig.setTamed(true);
+            pig.setOwnerId(this.getUniqueID());
+        }
+
         return super.onInitialSpawn(world, difficultyInstance, spawnReason, entityData, nbt);
     }
 
@@ -55,9 +60,9 @@ public class LadyGwenEntity extends CreatureEntity {
     }
 
     @Override
-    public boolean writeUnlessRemoved(CompoundNBT nbt) {
-        nbt.putInt("Variant", this.getVariant());
-        return super.writeUnlessRemoved(nbt);
+    public boolean writeUnlessRemoved(CompoundNBT compound) {
+        compound.putInt("Variant", this.getVariant());
+        return super.writeUnlessRemoved(compound);
     }
 
     @Override
