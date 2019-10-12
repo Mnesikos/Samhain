@@ -2,9 +2,11 @@ package com.github.mnesikos.samhain.init;
 
 import com.github.mnesikos.samhain.Samhain;
 import com.github.mnesikos.samhain.client.renderer.BlackPigRenderer;
+import com.github.mnesikos.samhain.client.renderer.LadyGwenRenderer;
 import com.github.mnesikos.samhain.client.renderer.SidheRenderer;
 import com.github.mnesikos.samhain.client.renderer.SpiritRenderer;
 import com.github.mnesikos.samhain.common.entity.BlackPigEntity;
+import com.github.mnesikos.samhain.common.entity.LadyGwenEntity;
 import com.github.mnesikos.samhain.common.entity.SidheEntity;
 import com.github.mnesikos.samhain.common.entity.SpiritEntity;
 import net.minecraft.block.Block;
@@ -46,5 +48,6 @@ public class RegistryEvents {
         RenderingRegistry.registerEntityRenderingHandler(SpiritEntity.class, SpiritRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(SidheEntity.class, SidheRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(BlackPigEntity.class, BlackPigRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(LadyGwenEntity.class, LadyGwenRenderer::new);
     }
 }

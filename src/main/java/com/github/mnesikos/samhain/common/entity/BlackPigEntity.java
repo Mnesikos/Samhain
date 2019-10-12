@@ -37,4 +37,9 @@ public class BlackPigEntity extends AnimalEntity implements IMob {
     public AgeableEntity createChild(AgeableEntity ageableEntity) {
         return null;
     }
+
+    @Override
+    protected boolean canBeRidden(Entity p_184228_1_) {
+        return false;
+    }
 }
