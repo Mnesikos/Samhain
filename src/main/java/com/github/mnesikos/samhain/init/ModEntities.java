@@ -9,52 +9,40 @@ import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.SpawnEggItem;
+import net.minecraft.util.Tuple;
+import net.minecraftforge.event.RegistryEvent;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class ModEntities {
     public static final List<EntityType<?>> LIST = new ArrayList<>();
-    private static final List<EggEntry> EGGS = new ArrayList<>();
-    public static final EntityType<SpiritEntity> SPIRIT = create(SpiritEntity::new, EntityClassification.AMBIENT, 1, 1, 0, 0, "spirit");
-    public static final EntityType<SidheEntity> SIDHE = create(SidheEntity::new, EntityClassification.CREATURE, 1, 1, 0, 0, "sidhe");
-    public static final EntityType<BlackPigEntity> BLACK_PIG = create(BlackPigEntity::new, EntityClassification.CREATURE, 1, 1, "black_pig");
-    public static final EntityType<LadyGwenEntity> LADY_GWEN = create(LadyGwenEntity::new, EntityClassification.CREATURE, 1, 1, 0x000, 0x000, "lady_gwen");
+    private static final Map<EntityType<?>, Tuple<Integer, Integer>> EGGS = new HashMap<>();
+    public static final EntityType<SpiritEntity> SPIRIT = create(SpiritEntity::new, EntityClassification.AMBIENT, 1, 1, false, 0xB0C9FA, 0xCADBE7, "spirit");
+    public static final EntityType<SidheEntity> SIDHE = create(SidheEntity::new, EntityClassification.CREATURE, 1, 1, false, 0xEAF3B0, 0x82C45F, "sidhe");
+    public static final EntityType<LadyGwenEntity> LADY_GWEN = create(LadyGwenEntity::new, EntityClassification.CREATURE, 1, 1, true, 0xE4F3F9, 0x503D31, "lady_gwen");
+    public static final EntityType<BlackPigEntity> BLACK_PIG = create(BlackPigEntity::new, EntityClassification.CREATURE, 1, 1, true, "black_pig");
 
     //todo set the egg colors and sizes for all mobs
-    private static <T extends Entity> EntityType<T> create(EntityType.IFactory<T> factoryIn, EntityClassification classificationIn, float width, float height, int primary, int secondary, String name) {
-        EntityType<T> type = EntityType.Builder.create(factoryIn, classificationIn).size(width, height).setShouldReceiveVelocityUpdates(false).build(name);
+    private static <T extends Entity> EntityType<T> create(EntityType.IFactory<T> factoryIn, EntityClassification classificationIn, float width, float height, boolean velocity, int primary, int secondary, String name) {
+        EntityType<T> type = EntityType.Builder.create(factoryIn, classificationIn).size(width, height).setShouldReceiveVelocityUpdates(velocity).build(name);
         type.setRegistryName(name);
         LIST.add(type);
-        EGGS.add(new EggEntry(type, primary, secondary));
+        EGGS.put(type, new Tuple<>(primary, secondary));
         return type;
     }
 
     /**
      * created a copy of the create method for entities without spawn eggs
      */
-    private static <T extends Entity> EntityType<T> create(EntityType.IFactory<T> factoryIn, EntityClassification classificationIn, float width, float height, String name) {
-        EntityType<T> type = EntityType.Builder.create(factoryIn, classificationIn).size(width, height).setShouldReceiveVelocityUpdates(false).build(name);
+    private static <T extends Entity> EntityType<T> create(EntityType.IFactory<T> factoryIn, EntityClassification classificationIn, float width, float height, boolean velocity, String name) {
+        EntityType<T> type = EntityType.Builder.create(factoryIn, classificationIn).size(width, height).setShouldReceiveVelocityUpdates(velocity).build(name);
         type.setRegistryName(name);
         LIST.add(type);
         return type;
     }
 
-    static void registerEggs() {
-        for(EggEntry egg : EGGS) ModItems.LIST.add(new SpawnEggItem(egg.type, egg.primary, egg.secondary, EggEntry.properties).setRegistryName(Objects.requireNonNull(egg.type.getRegistryName()).getPath() + "_spawn_egg"));
-    }
-
-    private static class EggEntry {
-        private static final Item.Properties properties = new Item.Properties().group(ModItems.GROUP);
-        private final EntityType<?> type;
-        private final int primary;
-        private final int secondary;
-
-        private EggEntry(EntityType<?> type, int primary, int secondary) {
-            this.type = type;
-            this.primary = primary;
-            this.secondary = secondary;
-        }
+    public static void registerEggs(RegistryEvent.Register<Item> event) {
+        final Item.Properties properties = new Item.Properties().group(ModItems.GROUP);
+        EGGS.forEach((k, v) -> event.getRegistry().register(new SpawnEggItem(k, v.getA(), v.getB(), properties).setRegistryName(Objects.requireNonNull(k.getRegistryName()).getPath() + "_spawn_egg")));
     }
 }

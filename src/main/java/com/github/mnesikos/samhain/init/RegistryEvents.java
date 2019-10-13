@@ -33,7 +33,7 @@ public class RegistryEvents {
 
     @SubscribeEvent
     public static void registerItems(final RegistryEvent.Register<Item> event) {
-        ModEntities.registerEggs();
+        ModEntities.registerEggs(event);
         event.getRegistry().registerAll(ModItems.LIST.toArray(new Item[0]));
     }
 
