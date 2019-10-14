@@ -41,6 +41,8 @@ public class LadyGwenEntity extends CreatureEntity {
         super.registerAttributes();
         this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20.0D);
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.24D);
+        this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
+        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(0.0D);
     }
 
     @Override
@@ -127,6 +129,7 @@ public class LadyGwenEntity extends CreatureEntity {
         @Override
         public void startExecuting() {
             this.aggroTime = 5;
+            this.ladyGwen.setLastAttackedEntity(this.player);
         }
 
         @Override
