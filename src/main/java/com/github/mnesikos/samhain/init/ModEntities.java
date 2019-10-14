@@ -14,8 +14,7 @@ import net.minecraftforge.event.RegistryEvent;
 
 import java.util.*;
 
-public class ModEntities {
-    public static final List<EntityType<?>> LIST = new ArrayList<>();
+public class ModEntities extends ModRegistry<EntityType<?>> {
     private static final Map<EntityType<?>, Tuple<Integer, Integer>> EGGS = new HashMap<>();
     public static final EntityType<SpiritEntity> SPIRIT = create(SpiritEntity::new, EntityClassification.AMBIENT, 1, 1, false, 0xB0C9FA, 0xCADBE7, "spirit");
     public static final EntityType<SidheEntity> SIDHE = create(SidheEntity::new, EntityClassification.CREATURE, 1, 1, false, 0xEAF3B0, 0x82C45F, "sidhe");
@@ -26,7 +25,6 @@ public class ModEntities {
     private static <T extends Entity> EntityType<T> create(EntityType.IFactory<T> factoryIn, EntityClassification classificationIn, float width, float height, boolean velocity, int primary, int secondary, String name) {
         EntityType<T> type = EntityType.Builder.create(factoryIn, classificationIn).size(width, height).setShouldReceiveVelocityUpdates(velocity).build(name);
         type.setRegistryName(name);
-        LIST.add(type);
         EGGS.put(type, new Tuple<>(primary, secondary));
         return type;
     }
@@ -37,11 +35,10 @@ public class ModEntities {
     private static <T extends Entity> EntityType<T> create(EntityType.IFactory<T> factoryIn, EntityClassification classificationIn, float width, float height, boolean velocity, String name) {
         EntityType<T> type = EntityType.Builder.create(factoryIn, classificationIn).size(width, height).setShouldReceiveVelocityUpdates(velocity).build(name);
         type.setRegistryName(name);
-        LIST.add(type);
         return type;
     }
 
-    public static void registerEggs(RegistryEvent.Register<Item> event) {
+    static void registerEggs(RegistryEvent.Register<Item> event) {
         final Item.Properties properties = new Item.Properties().group(ModItems.GROUP);
         EGGS.forEach((k, v) -> event.getRegistry().register(new SpawnEggItem(k, v.getA(), v.getB(), properties).setRegistryName(Objects.requireNonNull(k.getRegistryName()).getPath() + "_spawn_egg")));
     }

@@ -12,13 +12,13 @@ import com.github.mnesikos.samhain.common.entity.SpiritEntity;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
+import net.minecraft.world.gen.ChunkGeneratorType;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.common.ModDimension;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
-
-import java.util.Arrays;
 
 @SuppressWarnings("unused")
 @Mod.EventBusSubscriber(modid = Samhain.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -28,18 +28,29 @@ public class RegistryEvents {
 
     @SubscribeEvent
     public static void registerBlocks(final RegistryEvent.Register<Block> event) {
-        event.getRegistry().registerAll(ModBlocks.LIST.toArray(new Block[0]));
+        ModRegistry.register(event, ModBlocks::new);
     }
 
     @SubscribeEvent
     public static void registerItems(final RegistryEvent.Register<Item> event) {
         ModEntities.registerEggs(event);
-        event.getRegistry().registerAll(ModItems.LIST.toArray(new Item[0]));
+        ModBlocks.registerItemBlocks(event);
+        ModRegistry.register(event, ModItems::new);
     }
 
     @SubscribeEvent
     public static void registerEntities(final RegistryEvent.Register<EntityType<?>> event) {
-        event.getRegistry().registerAll(ModEntities.LIST.toArray(new EntityType[0]));
+        ModRegistry.register(event, ModEntities::new);
+    }
+
+    @SubscribeEvent
+    public static void registerChunkGenerators(final RegistryEvent.Register<ChunkGeneratorType<?, ?>> event) {
+        ModRegistry.register(event, ModChunkGenerators::new);
+    }
+
+    @SubscribeEvent
+    public static void registerDimensions(final RegistryEvent.Register<ModDimension> event) {
+        event.getRegistry().registerAll(ModDimensions.LIST.toArray(new ModDimension[0]));
     }
 
     @SubscribeEvent

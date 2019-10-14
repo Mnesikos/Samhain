@@ -9,9 +9,7 @@ import net.minecraftforge.fml.common.Mod;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ModItems {
-    public static final List<Item> LIST = new ArrayList<>();
-
+public class ModItems extends ModRegistry<Item> {
     //moved group here since i removed the proxies
     public static final ItemGroup GROUP = new ItemGroup(Samhain.MOD_ID) {
         @Override

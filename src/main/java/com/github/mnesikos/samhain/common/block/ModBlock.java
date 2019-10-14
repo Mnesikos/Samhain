@@ -12,7 +12,6 @@ public class ModBlock extends Block {
     public ModBlock(String name) {
         super(Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(1.0F));
         setRegistryName(name);
-        ModBlocks.LIST.add(this);
-        ModItems.LIST.add(new BlockItem(this, new Item.Properties().group(ModItems.GROUP)).setRegistryName(name));
+        ModBlocks.ITEM_BLOCKS.add(new BlockItem(this, new Item.Properties().group(ModItems.GROUP)).setRegistryName(name));
     }
 }
