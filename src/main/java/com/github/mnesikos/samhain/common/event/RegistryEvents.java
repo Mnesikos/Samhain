@@ -1,4 +1,4 @@
-package com.github.mnesikos.samhain.init;
+package com.github.mnesikos.samhain.common.event;
 
 import com.github.mnesikos.samhain.Samhain;
 import com.github.mnesikos.samhain.client.renderer.BlackPigRenderer;
@@ -9,6 +9,7 @@ import com.github.mnesikos.samhain.common.entity.BlackPigEntity;
 import com.github.mnesikos.samhain.common.entity.LadyGwenEntity;
 import com.github.mnesikos.samhain.common.entity.SidheEntity;
 import com.github.mnesikos.samhain.common.entity.SpiritEntity;
+import com.github.mnesikos.samhain.init.*;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
@@ -20,6 +21,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.List;
+
 @SuppressWarnings("unused")
 @Mod.EventBusSubscriber(modid = Samhain.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RegistryEvents {
@@ -28,29 +31,31 @@ public class RegistryEvents {
 
     @SubscribeEvent
     public static void registerBlocks(final RegistryEvent.Register<Block> event) {
-        ModRegistry.register(event, ModBlocks::new);
+        ModRegistry.register(event.getRegistry(), ModBlocks::new);
     }
 
     @SubscribeEvent
     public static void registerItems(final RegistryEvent.Register<Item> event) {
-        ModEntities.registerEggs(event);
-        ModBlocks.registerItemBlocks(event);
-        ModRegistry.register(event, ModItems::new);
+        ModRegistry<Item> registry = ModRegistry.make(ModItems::new);
+        List<Item> list = registry.list;
+        ModEntities.registerEggs(list);
+        ModBlocks.registerItemBlocks(list);
+        registry.init(event.getRegistry());
     }
 
     @SubscribeEvent
     public static void registerEntities(final RegistryEvent.Register<EntityType<?>> event) {
-        ModRegistry.register(event, ModEntities::new);
+        ModRegistry.register(event.getRegistry(), ModEntities::new);
     }
 
     @SubscribeEvent
     public static void registerChunkGenerators(final RegistryEvent.Register<ChunkGeneratorType<?, ?>> event) {
-        ModRegistry.register(event, ModChunkGenerators::new);
+        ModRegistry.register(event.getRegistry(), ModChunkGenerators::new);
     }
 
     @SubscribeEvent
     public static void registerDimensions(final RegistryEvent.Register<ModDimension> event) {
-        event.getRegistry().registerAll(ModDimensions.LIST.toArray(new ModDimension[0]));
+        ModRegistry.register(event.getRegistry(), ModDimensions::new);
     }
 
     @SubscribeEvent

@@ -9,7 +9,6 @@ import net.minecraftforge.common.ModDimension;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
-//this will probably be more useful soon
 public class DimensionBase extends ModDimension {
 
     private final BiFunction<World, DimensionType, ? extends Dimension> factory;

@@ -10,9 +10,11 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.util.Tuple;
-import net.minecraftforge.event.RegistryEvent;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class ModEntities extends ModRegistry<EntityType<?>> {
     private static final Map<EntityType<?>, Tuple<Integer, Integer>> EGGS = new HashMap<>();
@@ -38,8 +40,8 @@ public class ModEntities extends ModRegistry<EntityType<?>> {
         return type;
     }
 
-    static void registerEggs(RegistryEvent.Register<Item> event) {
+    public static void registerEggs(List<Item> registry) {
         final Item.Properties properties = new Item.Properties().group(ModItems.GROUP);
-        EGGS.forEach((k, v) -> event.getRegistry().register(new SpawnEggItem(k, v.getA(), v.getB(), properties).setRegistryName(Objects.requireNonNull(k.getRegistryName()).getPath() + "_spawn_egg")));
+        EGGS.forEach((k, v) -> registry.add(new SpawnEggItem(k, v.getA(), v.getB(), properties).setRegistryName(Objects.requireNonNull(k.getRegistryName()).getPath() + "_spawn_egg")));
     }
 }
