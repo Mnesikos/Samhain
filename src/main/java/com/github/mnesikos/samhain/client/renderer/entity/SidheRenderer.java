@@ -1,7 +1,7 @@
-package com.github.mnesikos.samhain.client.renderer;
+package com.github.mnesikos.samhain.client.renderer.entity;
 
 import com.github.mnesikos.samhain.Samhain;
-import com.github.mnesikos.samhain.client.model.SidheModel;
+import com.github.mnesikos.samhain.client.renderer.entity.model.SidheModel;
 import com.github.mnesikos.samhain.common.entity.SidheEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;

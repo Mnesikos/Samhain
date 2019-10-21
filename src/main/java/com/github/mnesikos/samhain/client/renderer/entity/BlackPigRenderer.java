@@ -1,7 +1,7 @@
-package com.github.mnesikos.samhain.client.renderer;
+package com.github.mnesikos.samhain.client.renderer.entity;
 
 import com.github.mnesikos.samhain.Samhain;
-import com.github.mnesikos.samhain.client.model.BlackPigModel;
+import com.github.mnesikos.samhain.client.renderer.entity.model.BlackPigModel;
 import com.github.mnesikos.samhain.common.entity.BlackPigEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;

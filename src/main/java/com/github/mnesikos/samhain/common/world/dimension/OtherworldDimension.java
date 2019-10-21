@@ -1,5 +1,6 @@
 package com.github.mnesikos.samhain.common.world.dimension;
 
+import com.github.mnesikos.samhain.Samhain;
 import com.github.mnesikos.samhain.init.ModChunkGenerators;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.block.BlockState;
@@ -32,7 +33,7 @@ import javax.annotation.Nullable;
 
 public class OtherworldDimension extends Dimension {
 
-    private static final ResourceLocation MOON_PHASES_TEXTURES = new ResourceLocation("textures/environment/moon_phases.png");
+    private static final ResourceLocation MOON_TEXTURES = new ResourceLocation(Samhain.MOD_ID, "textures/environment/otherworld_moon.png");
 
     public OtherworldDimension(World p_i49936_1_, DimensionType p_i49936_2_) {
         super(p_i49936_1_, p_i49936_2_);
@@ -204,6 +205,7 @@ public class OtherworldDimension extends Dimension {
     }
 
     private void renderSky(int ticks, float partialTicks, ClientWorld world, Minecraft mc) {
+        //calls to the world haven't been redirected to this directly for better support with other mods that may use the world to change stuff
         GlStateManager.disableTexture();
         Vec3d vec3d = this.world.getSkyColor(mc.gameRenderer.getActiveRenderInfo().getBlockPos(), partialTicks);
         float f = (float)vec3d.x;
@@ -228,20 +230,15 @@ public class OtherworldDimension extends Dimension {
         GlStateManager.rotatef(-90.0F, 0.0F, 1.0F, 0.0F);
         GlStateManager.rotatef(this.world.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);
         float f12 = 20.0F;
+        //color the moon, color = rgb / 255
         GlStateManager.color3f(0.96078431F, 0.623529411F, 0.180392156F);
-        mc.getTextureManager().bindTexture(MOON_PHASES_TEXTURES);
-        int k = this.world.getMoonPhase();
-        int l = k % 4;
-        int i1 = k / 4 % 2;
-        float f13 = (float)(l) / 4.0F;
-        float f14 = (float)(i1) / 2.0F;
-        float f15 = (float)(l + 1) / 4.0F;
-        float f9 = (float)(i1 + 1) / 2.0F;
+        //bind the moon texture, start positioning and drawing
+        mc.getTextureManager().bindTexture(MOON_TEXTURES);
         bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
-        bufferbuilder.pos(-f12, -100.0D, f12).tex(f15, f9).endVertex();
-        bufferbuilder.pos(f12, -100.0D, f12).tex(f13, f9).endVertex();
-        bufferbuilder.pos(f12, -100.0D, -f12).tex(f13, f14).endVertex();
-        bufferbuilder.pos(-f12, -100.0D, -f12).tex(f15, f14).endVertex();
+        bufferbuilder.pos(-f12, 100.0D, -f12).tex(0, 0).endVertex();
+        bufferbuilder.pos(f12, 100.0D, -f12).tex(1, 0).endVertex();
+        bufferbuilder.pos(f12, 100.0D, f12).tex(1, 1).endVertex();
+        bufferbuilder.pos(-f12, 100.0D, f12).tex(0, 1).endVertex();
         tessellator.draw();
         GlStateManager.disableTexture();
         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -251,12 +248,7 @@ public class OtherworldDimension extends Dimension {
         GlStateManager.popMatrix();
         GlStateManager.disableTexture();
         GlStateManager.color3f(0.0F, 0.0F, 0.0F);
-        if (this.world.dimension.isSkyColored()) {
-            GlStateManager.color3f(f * 0.2F + 0.04F, f1 * 0.2F + 0.04F, f2 * 0.6F + 0.1F);
-        } else {
-            GlStateManager.color3f(f, f1, f2);
-        }
-
+        GlStateManager.color3f(f * 0.2F + 0.04F, f1 * 0.2F + 0.04F, f2 * 0.6F + 0.1F);
         GlStateManager.pushMatrix();
         GlStateManager.translatef(0.0F, -((float)(mc.player.getEyePosition(partialTicks).y - this.world.getHorizon() - 16.0D)), 0.0F);
         GlStateManager.popMatrix();

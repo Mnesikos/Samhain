@@ -12,6 +12,7 @@ public class CommonEvents {
 
     @SubscribeEvent
     public static void registerDimensions(RegisterDimensionsEvent event) {
+        //all dimensions registered need to have their type set through here
         ModDimensions.setType(ModDimensions.OTHERWORLD, null, false);
     }
 }

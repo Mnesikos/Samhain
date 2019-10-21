@@ -1,11 +1,9 @@
-package com.github.mnesikos.samhain.client.renderer;
+package com.github.mnesikos.samhain.client.renderer.entity;
 
 import com.github.mnesikos.samhain.common.entity.SpiritEntity;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.client.renderer.entity.model.CowModel;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;

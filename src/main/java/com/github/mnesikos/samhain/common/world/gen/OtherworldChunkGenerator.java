@@ -1,6 +1,8 @@
 package com.github.mnesikos.samhain.common.world.gen;
 
+import net.minecraft.entity.EntityClassification;
 import net.minecraft.util.Util;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.WorldType;
@@ -10,7 +12,21 @@ import net.minecraft.world.gen.NoiseChunkGenerator;
 import net.minecraft.world.gen.OctavesNoiseGenerator;
 import net.minecraft.world.gen.OverworldGenSettings;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class OtherworldChunkGenerator extends NoiseChunkGenerator<OverworldGenSettings> {
+
+    private static final Map<EntityClassification, List<Biome.SpawnListEntry>> CREATURES = new HashMap<EntityClassification, List<Biome.SpawnListEntry>>() {{
+        //define creatures of each type here, if empty replace with `new ArrayList<>()`, if it has one entry replace with `Collections.singletonList()`
+        put(EntityClassification.MONSTER, Arrays.asList());
+        put(EntityClassification.CREATURE, Arrays.asList());
+        put(EntityClassification.AMBIENT, Arrays.asList());
+        put(EntityClassification.WATER_CREATURE, Arrays.asList());
+        put(EntityClassification.MISC, Arrays.asList());
+    }};
 
     private static final float[] field_222576_h = Util.make(new float[25], arr -> {
         for(int lvt_1_1_ = -2; lvt_1_1_ <= 2; ++lvt_1_1_) {
@@ -102,6 +118,10 @@ public class OtherworldChunkGenerator extends NoiseChunkGenerator<OverworldGenSe
         double lvt_8_1_ = 8.555149841308594D;
         double lvt_10_1_ = 4.277574920654297D;
         this.func_222546_a(doubles, i, i1, lvt_4_1_, lvt_6_1_, lvt_8_1_, lvt_10_1_, 3, -10);
+    }
+
+    public List<Biome.SpawnListEntry> getPossibleCreatures(EntityClassification p_177458_1_, BlockPos p_177458_2_) {
+        return CREATURES.get(p_177458_1_);
     }
 
     public int getGroundHeight() {

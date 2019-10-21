@@ -1,4 +1,4 @@
-package com.github.mnesikos.samhain.client.model;
+package com.github.mnesikos.samhain.client.renderer.entity.model;
 
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;

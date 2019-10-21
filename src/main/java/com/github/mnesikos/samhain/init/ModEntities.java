@@ -23,10 +23,8 @@ public class ModEntities extends ModRegistry<EntityType<?>> {
     public static final EntityType<LadyGwenEntity> LADY_GWEN = create(LadyGwenEntity::new, EntityClassification.CREATURE, 1, 1, true, 0xE4F3F9, 0x503D31, "lady_gwen");
     public static final EntityType<BlackPigEntity> BLACK_PIG = create(BlackPigEntity::new, EntityClassification.CREATURE, 1, 1, true, "black_pig");
 
-    //todo set the egg colors and sizes for all mobs
     private static <T extends Entity> EntityType<T> create(EntityType.IFactory<T> factoryIn, EntityClassification classificationIn, float width, float height, boolean velocity, int primary, int secondary, String name) {
-        EntityType<T> type = EntityType.Builder.create(factoryIn, classificationIn).size(width, height).setShouldReceiveVelocityUpdates(velocity).build(name);
-        type.setRegistryName(name);
+        EntityType<T> type = create(factoryIn, classificationIn, width, height, velocity, name);
         EGGS.put(type, new Tuple<>(primary, secondary));
         return type;
     }

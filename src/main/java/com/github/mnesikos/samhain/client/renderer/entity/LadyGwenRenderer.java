@@ -1,4 +1,4 @@
-package com.github.mnesikos.samhain.client.renderer;
+package com.github.mnesikos.samhain.client.renderer.entity;
 
 import com.github.mnesikos.samhain.Samhain;
 import com.github.mnesikos.samhain.common.entity.LadyGwenEntity;
