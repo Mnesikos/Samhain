@@ -97,19 +97,20 @@ public class BlackPigEntity extends TameableEntity {
     @Override
     public LivingEntity getOwner() {
         if (this.isTamed() && this.hasLadyGwen()) {
-            UUID gwenId = this.getOwnerId();
             LadyGwenEntity gwen = null;
+            UUID gwenId = this.getOwnerId();
+            if(gwenId != null) {
+                int f = 20;
+                BlockPos posMin = this.getPosition().add(-f, -3, -f);
+                BlockPos posMax = this.getPosition().add(f, 6, f);
+                AxisAlignedBB boundingBox = new AxisAlignedBB(posMin, posMax);
+                List<LadyGwenEntity> list = this.world.getEntitiesWithinAABB(LadyGwenEntity.class, boundingBox);
 
-            int f = 20;
-            BlockPos posMin = this.getPosition().add(-f, -3, -f);
-            BlockPos posMax = this.getPosition().add(f, 6, f);
-            AxisAlignedBB boundingBox = new AxisAlignedBB(posMin, posMax);
-            List<LadyGwenEntity> list = this.world.getEntitiesWithinAABB(LadyGwenEntity.class, boundingBox);
-
-            for (LadyGwenEntity ladyGwenEntity : list) {
-                if (ladyGwenEntity != null && ladyGwenEntity.getUniqueID().equals(gwenId)) {
-                    gwen = ladyGwenEntity;
-                    break;
+                for (LadyGwenEntity ladyGwenEntity : list) {
+                    if (ladyGwenEntity != null && ladyGwenEntity.getUniqueID().equals(gwenId)) {
+                        gwen = ladyGwenEntity;
+                        break;
+                    }
                 }
             }
             return gwen;
