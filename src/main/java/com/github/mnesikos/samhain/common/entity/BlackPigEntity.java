@@ -27,6 +27,7 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
@@ -96,29 +97,24 @@ public class BlackPigEntity extends TameableEntity {
     @Override
     public LivingEntity getOwner() {
         if (this.isTamed() && this.hasLadyGwen()) {
-            try {
-                UUID gwenId = this.getOwnerId();
-                LadyGwenEntity gwen = null;
+            UUID gwenId = this.getOwnerId();
+            LadyGwenEntity gwen = null;
 
-                int f = 20;
-                BlockPos posMin = this.getPosition().add(-f, -3, -f);
-                BlockPos posMax = this.getPosition().add(f, 6, f);
-                AxisAlignedBB boundingBox = new AxisAlignedBB(posMin, posMax);
-                List<LadyGwenEntity> list = this.world.getEntitiesWithinAABB(LadyGwenEntity.class, boundingBox);
+            int f = 20;
+            BlockPos posMin = this.getPosition().add(-f, -3, -f);
+            BlockPos posMax = this.getPosition().add(f, 6, f);
+            AxisAlignedBB boundingBox = new AxisAlignedBB(posMin, posMax);
+            List<LadyGwenEntity> list = this.world.getEntitiesWithinAABB(LadyGwenEntity.class, boundingBox);
 
-                for (int i = 0; i < list.size(); i++) {
-                    gwen = list.get(i);
-                    if (gwen != null && gwen.getUniqueID().equals(gwenId))
-                        break;
+            for (LadyGwenEntity ladyGwenEntity : list) {
+                if (ladyGwenEntity != null && ladyGwenEntity.getUniqueID().equals(gwenId)) {
+                    gwen = ladyGwenEntity;
+                    break;
                 }
-                return gwen;
-
-            } catch (IllegalArgumentException var2) {
-                return null;
             }
+            return gwen;
         }
-        else
-            return super.getOwner();
+        return null;
     }
 
     @Override

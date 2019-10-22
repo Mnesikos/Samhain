@@ -225,20 +225,19 @@ public class OtherworldDimension extends Dimension {
         GlStateManager.enableTexture();
         GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
         GlStateManager.pushMatrix();
-        float f11 = 1.0F - this.world.getRainStrength(partialTicks);
-        GlStateManager.color4f(1.0F, 1.0F, 1.0F, f11);
+        float f3 = 1.0F - this.world.getRainStrength(partialTicks);
+        GlStateManager.color4f(1.0F, 1.0F, 1.0F, f3);
         GlStateManager.rotatef(-90.0F, 0.0F, 1.0F, 0.0F);
         GlStateManager.rotatef(this.world.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);
-        float f12 = 20.0F;
-        //color the moon, color = rgb / 255
+        float f4 = 80.0F;
+        //color the moon and sky, color = rgb / 255
         GlStateManager.color3f(0.96078431F, 0.623529411F, 0.180392156F);
-        //bind the moon texture, start positioning and drawing
         mc.getTextureManager().bindTexture(MOON_TEXTURES);
         bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
-        bufferbuilder.pos(-f12, 100.0D, -f12).tex(0, 0).endVertex();
-        bufferbuilder.pos(f12, 100.0D, -f12).tex(1, 0).endVertex();
-        bufferbuilder.pos(f12, 100.0D, f12).tex(1, 1).endVertex();
-        bufferbuilder.pos(-f12, 100.0D, f12).tex(0, 1).endVertex();
+        bufferbuilder.pos(-f4, 100.0D, -f4).tex(0, 0).endVertex();
+        bufferbuilder.pos(f4, 100.0D, -f4).tex(1, 0).endVertex();
+        bufferbuilder.pos(f4, 100.0D, f4).tex(1, 1).endVertex();
+        bufferbuilder.pos(-f4, 100.0D, f4).tex(0, 1).endVertex();
         tessellator.draw();
         GlStateManager.disableTexture();
         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);

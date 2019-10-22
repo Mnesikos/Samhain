@@ -105,19 +105,17 @@ public class LadyGwenEntity extends CreatureEntity {
         }
     }
 
-    static class FindPlayerGoal extends net.minecraft.entity.ai.goal.NearestAttackableTargetGoal<PlayerEntity> {
+    private static class FindPlayerGoal extends NearestAttackableTargetGoal<PlayerEntity> {
         private final LadyGwenEntity ladyGwen;
         private PlayerEntity player;
         private int aggroTime;
         private final EntityPredicate entityPredicate;
         private final EntityPredicate lineOfSiteRequired = (new EntityPredicate()).setLineOfSiteRequired();
 
-        public FindPlayerGoal(LadyGwenEntity ladyGwen) {
+        FindPlayerGoal(LadyGwenEntity ladyGwen) {
             super(ladyGwen, PlayerEntity.class, false);
             this.ladyGwen = ladyGwen;
-            this.entityPredicate = (new EntityPredicate()).setDistance(this.getTargetDistance()).setCustomPredicate((p_220790_1_) -> {
-                return ladyGwen.shouldAttackPlayer((PlayerEntity)p_220790_1_);
-            });
+            this.entityPredicate = (new EntityPredicate()).setDistance(this.getTargetDistance()).setCustomPredicate((p_220790_1_) -> ladyGwen.shouldAttackPlayer((PlayerEntity)p_220790_1_));
         }
 
         @Override

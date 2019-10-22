@@ -25,7 +25,7 @@ public class ClientEvents {
             ActiveRenderInfo info = event.getInfo();
             IFluidState ifluidstate = info.getFluidState();
             if (ifluidstate.isTagged(FluidTags.WATER)) {
-                Vector3f colors = OtherworldWaterFog.getColors(world, info, event.getFogRenderer());
+                Vector3f colors = OtherworldWaterFog.getColors(world, info);
                 event.setRed(colors.getX());
                 event.setGreen(colors.getY());
                 event.setBlue(colors.getZ());
