@@ -12,8 +12,16 @@ import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.passive.horse.AbstractHorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -24,12 +32,11 @@ import java.util.List;
 import java.util.UUID;
 
 public class BlackPigEntity extends TameableEntity {
+    private static final DataParameter<Boolean> HAS_LADY_GWEN = EntityDataManager.createKey(BlackPigEntity.class, DataSerializers.BOOLEAN);
+
     public BlackPigEntity(EntityType<? extends TameableEntity> entity, World world) {
         super(entity, world);
-        this.setTamed(false);
     }
-
-    // todo give the pig some passive healing ability cause otherwise it gon die all the time
 
     @Override
     protected void registerGoals() {
@@ -54,6 +61,18 @@ public class BlackPigEntity extends TameableEntity {
     }
 
     @Override
+    protected void registerData() {
+        super.registerData();
+        this.dataManager.register(HAS_LADY_GWEN, false);
+    }
+
+    @Override
+    public void writeAdditional(CompoundNBT compound) {
+        super.writeAdditional(compound);
+        compound.putBoolean("HasLadyGwen", this.hasLadyGwen());
+    }
+
+    @Override
     public void readAdditional(CompoundNBT compound) {
         super.readAdditional(compound);
         String s;
@@ -62,31 +81,98 @@ public class BlackPigEntity extends TameableEntity {
             if (!s.isEmpty())
                 this.setOwnerId(UUID.fromString(s));
         }
+        this.setHasLadyGwen(compound.getBoolean("HasLadyGwen"));
+    }
+
+    public boolean hasLadyGwen() {
+        return this.dataManager.get(HAS_LADY_GWEN);
+    }
+
+    public void setHasLadyGwen(boolean hasLadyGwen) {
+        this.dataManager.set(HAS_LADY_GWEN, hasLadyGwen);
     }
 
     @Nullable
     @Override
     public LivingEntity getOwner() {
-        try {
-            UUID gwenId = this.getOwnerId();
-            LadyGwenEntity gwen = null;
+        if (this.isTamed() && this.hasLadyGwen()) {
+            try {
+                UUID gwenId = this.getOwnerId();
+                LadyGwenEntity gwen = null;
 
-            int f = 20;
-            BlockPos posMin = this.getPosition().add(-f, -3, -f);
-            BlockPos posMax = this.getPosition().add(f, 6, f);
-            AxisAlignedBB boundingBox = new AxisAlignedBB(posMin, posMax);
-            List<LadyGwenEntity> list = this.world.getEntitiesWithinAABB(LadyGwenEntity.class, boundingBox);
+                int f = 20;
+                BlockPos posMin = this.getPosition().add(-f, -3, -f);
+                BlockPos posMax = this.getPosition().add(f, 6, f);
+                AxisAlignedBB boundingBox = new AxisAlignedBB(posMin, posMax);
+                List<LadyGwenEntity> list = this.world.getEntitiesWithinAABB(LadyGwenEntity.class, boundingBox);
 
-            for (int i = 0; i < list.size(); i++) {
-                gwen = list.get(i);
-                if (gwen != null && gwen.getUniqueID().equals(gwenId))
-                    break;
+                for (int i = 0; i < list.size(); i++) {
+                    gwen = list.get(i);
+                    if (gwen != null && gwen.getUniqueID().equals(gwenId))
+                        break;
+                }
+                return gwen;
+
+            } catch (IllegalArgumentException var2) {
+                return null;
             }
-            return gwen;
-
-        } catch (IllegalArgumentException var2) {
-            return null;
         }
+        else
+            return super.getOwner();
+    }
+
+    @Override
+    public void livingTick() {
+        if (this.isTamed() && this.hasLadyGwen()) {
+            if (!this.getOwner().isAlive()) {
+                this.setTamed(false);
+                this.setOwnerId(null);
+                this.setHasLadyGwen(false);
+            }
+        }
+        super.livingTick();
+    }
+
+    @Override
+    public boolean processInteract(PlayerEntity player, Hand hand) {
+        ItemStack itemstack = player.getHeldItem(hand);
+        Item item = itemstack.getItem();
+        if (this.isTamed() && this.getOwner() == player) {
+            if (!itemstack.isEmpty()) {
+                if (item.isFood()) {
+                    if (this.getHealth() < this.getMaxHealth()) {
+                        if (!player.abilities.isCreativeMode) {
+                            itemstack.shrink(1);
+                        }
+
+                        this.heal((float)item.getFood().getHealing());
+                        return true;
+                    }
+                }
+            }
+
+        } else if (!this.isTamed() && item.isFood() && this.getAttackTarget() != player) {
+            if (!player.abilities.isCreativeMode) {
+                itemstack.shrink(1);
+            }
+
+            if (!this.world.isRemote) {
+                if (this.rand.nextInt(3) == 0 && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player)) {
+                    this.setTamedBy(player);
+                    this.navigator.clearPath();
+                    this.setAttackTarget(null);
+                    this.playTameEffect(true);
+                    this.world.setEntityState(this, (byte)7);
+                } else {
+                    this.playTameEffect(false);
+                    this.world.setEntityState(this, (byte)6);
+                }
+            }
+
+            return true;
+        }
+
+        return super.processInteract(player, hand);
     }
 
     @Override
@@ -118,9 +204,12 @@ public class BlackPigEntity extends TameableEntity {
 
         else {
             Entity entity = source.getTrueSource();
-            if (entity != null && !(entity instanceof AbstractArrowEntity)) {
+            if (entity != null && !(entity instanceof AbstractArrowEntity))
                 amount = (amount + 1.0F) / 2.0F;
-            }
+
+            // todo give the pig some passive healing ability cause otherwise it gon die all the time
+            if (this.getHealth() < this.getMaxHealth() / 2)
+                this.addPotionEffect(new EffectInstance(Effects.REGENERATION, 200, 0, false, false));
 
             return super.attackEntityFrom(source, amount);
         }

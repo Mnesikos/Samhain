@@ -4,7 +4,6 @@ import com.github.mnesikos.samhain.init.ModEntities;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.monster.EndermanEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -19,7 +18,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 
 public class LadyGwenEntity extends CreatureEntity {
-    private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(SidheEntity.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(LadyGwenEntity.class, DataSerializers.VARINT);
 
     public LadyGwenEntity(EntityType<? extends CreatureEntity> entity, World world) {
         super(entity, world);
@@ -61,6 +60,7 @@ public class LadyGwenEntity extends CreatureEntity {
         if (pig != null) {
             pig.setTamed(true);
             pig.setOwnerId(this.getUniqueID());
+            pig.setHasLadyGwen(true);
         }
 
         return super.onInitialSpawn(world, difficultyInstance, spawnReason, entityData, nbt);
@@ -70,7 +70,7 @@ public class LadyGwenEntity extends CreatureEntity {
         return this.dataManager.get(VARIANT);
     }
 
-    public void setVariant(int variant) {
+    private void setVariant(int variant) {
         this.dataManager.set(VARIANT, variant);
     }
 
@@ -101,7 +101,7 @@ public class LadyGwenEntity extends CreatureEntity {
             double d0 = vec3d1.length();
             vec3d1 = vec3d1.normalize();
             double d1 = vec3d.dotProduct(vec3d1);
-            return d1 > 1.0D - 0.025D / d0 ? player.canEntityBeSeen(this) : false;
+            return d1 > 1.0D - 0.025D / d0 && player.canEntityBeSeen(this);
         }
     }
 
@@ -149,7 +149,7 @@ public class LadyGwenEntity extends CreatureEntity {
                     return true;
                 }
             } else {
-                return this.nearestTarget != null && this.lineOfSiteRequired.canTarget(this.ladyGwen, this.nearestTarget) ? true : super.shouldContinueExecuting();
+                return this.nearestTarget != null && this.lineOfSiteRequired.canTarget(this.ladyGwen, this.nearestTarget) || super.shouldContinueExecuting();
             }
         }
 
