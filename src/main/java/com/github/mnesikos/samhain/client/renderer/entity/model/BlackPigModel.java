@@ -1,8 +1,8 @@
 package com.github.mnesikos.samhain.client.renderer.entity.model;
 
+import com.github.mnesikos.samhain.common.entity.BlackPigEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -11,7 +11,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
  * Created by Coda using Tabula 7.0.1
  */
 @OnlyIn(Dist.CLIENT)
-public class BlackPigModel<T extends LivingEntity> extends EntityModel<T> {
+public class BlackPigModel<T extends BlackPigEntity> extends EntityModel<T> {
     public RendererModel body;
     public RendererModel legRight;
     public RendererModel legLeft;
@@ -88,15 +88,51 @@ public class BlackPigModel<T extends LivingEntity> extends EntityModel<T> {
     }
 
     @Override
+    public void setLivingAnimations(T entityIn, float limbSwing, float limbSwingAmount, float partialTick) {
+        super.setLivingAnimations(entityIn, limbSwing, limbSwingAmount, partialTick);
+        
+        if (entityIn.isSitting()) {
+            this.body.setRotationPoint(0.0F, 18.0F, 0.0F);
+            this.body.rotateAngleX = -((float)Math.PI / 4F);
+            this.chest.setRotationPoint(0.0F, 0.0F, 0.0F);
+            this.chest.rotateAngleX = 0.4F;
+            this.head.setRotationPoint(0.0F, 2.0F, -9.0F);
+            this.head.rotateAngleX = 0.67F;
+
+            this.legRight.setRotationPoint(-3.0F, 2.0F, 6.0F);
+            this.legLeft.setRotationPoint(3.0F, 2.0F, 6.0F);
+            this.legRight.rotateAngleX = this.legLeft.rotateAngleX = -0.9F;
+            this.legRight.rotateAngleY = 0.6F;
+            this.legLeft.rotateAngleY = -0.6F;
+
+            this.armRight.setRotationPoint(-3.5F, 5.0F, -5.0F);
+            this.armLeft.setRotationPoint(3.5F, 5.0F, -5.0F);
+            this.armRight.rotateAngleX = this.armLeft.rotateAngleX = 0.6F;
+        } else {
+            this.body.setRotationPoint(0.0F, 14.0F, 1.0F);
+            this.chest.setRotationPoint(0.0F, 0.0F, -2.0F);
+            this.body.rotateAngleX = this.chest.rotateAngleX = 0.0F;
+            this.head.setRotationPoint(0.0F, 0.0F, -12.0F);
+            this.head.rotateAngleX = 0.0F;
+
+            this.legRight.setRotationPoint(-3.0F, 4.0F, 7.0F);
+            this.legLeft.setRotationPoint(3.0F, 4.0F, 7.0F);
+            this.legRight.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+            this.legLeft.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
+            this.legRight.rotateAngleY = this.legLeft.rotateAngleY = 0.0F;
+
+            this.armRight.setRotationPoint(-3.5F, 4.0F, -8.5F);
+            this.armLeft.setRotationPoint(3.5F, 4.0F, -8.5F);
+            this.armRight.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
+            this.armLeft.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+        }
+    }
+
+    @Override
     public void setRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
         super.setRotationAngles(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
-        this.head.rotateAngleX = headPitch * ((float)Math.PI / 180F);
+        this.head.rotateAngleX = headPitch * ((float)Math.PI / 180F) + (entity.isSitting() ? + 0.67F : 0.0F);
         this.head.rotateAngleY = netHeadYaw * ((float)Math.PI / 180F);
-
-        this.legRight.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
-        this.legLeft.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
-        this.armRight.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
-        this.armLeft.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
     }
 
     /**

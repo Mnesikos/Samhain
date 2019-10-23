@@ -1,6 +1,18 @@
 {
   "block.samhain.crimson_king_maple_log": "Crimson King Maple Log",
 
+  "item.samhain.spirit_spawn_egg": "Spirit Spawn Egg",
+  "item.samhain.sidhe_spawn_egg": "Sidhe Spawn Egg",
+  "item.samhain.lady_gwen_spawn_egg": "Lady Gwen Spawn Egg",
+  "item.samhain.dullahan_spawn_egg": "Dullahan Spawn Egg",
+
+  "entity.samhain.spirit": "Spirit",
+  "entity.samhain.sidhe": "Sidhe",
+  "entity.samhain.lady_gwen": "Lady Gwen",
+  "entity.samhain.black_pig": "Black Pig",
+  "entity.samhain.dullahan": "Dullahan",
+  "entity.samhain.black_horse": "Black Horse",
+
   "_comment": "Creative Tabs",
   "itemGroup.samhain": "Samhain"
 }

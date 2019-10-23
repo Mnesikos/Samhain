@@ -10,6 +10,8 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
@@ -89,6 +91,14 @@ public class LadyGwenEntity extends CreatureEntity {
     @Override
     public boolean canBeLeashedTo(PlayerEntity player) {
         return false;
+    }
+
+    @Override
+    public boolean attackEntityAsMob(Entity entityIn) {
+        if (entityIn instanceof LivingEntity) {
+            ((LivingEntity) entityIn).addPotionEffect(new EffectInstance(Effects.SLOWNESS, 600));
+        }
+        return super.attackEntityAsMob(entityIn);
     }
 
     private boolean shouldAttackPlayer(PlayerEntity player) {

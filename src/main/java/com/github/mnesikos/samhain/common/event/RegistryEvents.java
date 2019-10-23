@@ -2,14 +2,8 @@ package com.github.mnesikos.samhain.common.event;
 
 import com.github.mnesikos.samhain.Samhain;
 import com.github.mnesikos.samhain.client.renderer.color.OtherworldColors;
-import com.github.mnesikos.samhain.client.renderer.entity.BlackPigRenderer;
-import com.github.mnesikos.samhain.client.renderer.entity.LadyGwenRenderer;
-import com.github.mnesikos.samhain.client.renderer.entity.SidheRenderer;
-import com.github.mnesikos.samhain.client.renderer.entity.SpiritRenderer;
-import com.github.mnesikos.samhain.common.entity.BlackPigEntity;
-import com.github.mnesikos.samhain.common.entity.LadyGwenEntity;
-import com.github.mnesikos.samhain.common.entity.SidheEntity;
-import com.github.mnesikos.samhain.common.entity.SpiritEntity;
+import com.github.mnesikos.samhain.client.renderer.entity.*;
+import com.github.mnesikos.samhain.common.entity.*;
 import com.github.mnesikos.samhain.init.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -87,5 +81,6 @@ public class RegistryEvents {
         RenderingRegistry.registerEntityRenderingHandler(SidheEntity.class, SidheRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(BlackPigEntity.class, BlackPigRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(LadyGwenEntity.class, LadyGwenRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(BlackHorseEntity.class, BlackHorseRenderer::new);
     }
 }

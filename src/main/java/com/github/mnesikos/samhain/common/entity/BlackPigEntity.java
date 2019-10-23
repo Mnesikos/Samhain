@@ -41,12 +41,14 @@ public class BlackPigEntity extends TameableEntity {
 
     @Override
     protected void registerGoals() {
+        this.sitGoal = new SitGoal(this);
         this.goalSelector.addGoal(1, new SwimGoal(this));
-        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, true));
-        this.goalSelector.addGoal(3, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F));
-        this.goalSelector.addGoal(4, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
-        this.goalSelector.addGoal(5, new LookAtGoal(this, PlayerEntity.class, 8.0F));
-        this.goalSelector.addGoal(5, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(2, this.sitGoal);
+        this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.0D, true));
+        this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F));
+        this.goalSelector.addGoal(5, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
+        this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.addGoal(6, new LookRandomlyGoal(this));
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, MonsterEntity.class, true));
@@ -99,7 +101,7 @@ public class BlackPigEntity extends TameableEntity {
         if (this.isTamed() && this.hasLadyGwen()) {
             LadyGwenEntity gwen = null;
             UUID gwenId = this.getOwnerId();
-            if(gwenId != null) {
+            if (gwenId != null) {
                 int f = 20;
                 BlockPos posMin = this.getPosition().add(-f, -3, -f);
                 BlockPos posMax = this.getPosition().add(f, 6, f);
@@ -115,13 +117,13 @@ public class BlackPigEntity extends TameableEntity {
             }
             return gwen;
         }
-        return null;
+        return super.getOwner();
     }
 
     @Override
     public void livingTick() {
         if (this.isTamed() && this.hasLadyGwen()) {
-            if (!this.getOwner().isAlive()) {
+            if ((this.getOwner() != null && !this.getOwner().isAlive()) || this.getOwner() == null) {
                 this.setTamed(false);
                 this.setOwnerId(null);
                 this.setHasLadyGwen(false);
@@ -148,6 +150,12 @@ public class BlackPigEntity extends TameableEntity {
                 }
             }
 
+            if (this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack)) {
+                this.sitGoal.setSitting(!this.isSitting());
+                this.isJumping = false;
+                this.navigator.clearPath();
+                this.setAttackTarget(null);
+            }
         } else if (!this.isTamed() && item.isFood() && this.getAttackTarget() != player) {
             if (!player.abilities.isCreativeMode) {
                 itemstack.shrink(1);
@@ -158,6 +166,7 @@ public class BlackPigEntity extends TameableEntity {
                     this.setTamedBy(player);
                     this.navigator.clearPath();
                     this.setAttackTarget(null);
+                    this.sitGoal.setSitting(true);
                     this.playTameEffect(true);
                     this.world.setEntityState(this, (byte)7);
                 } else {
@@ -201,6 +210,9 @@ public class BlackPigEntity extends TameableEntity {
 
         else {
             Entity entity = source.getTrueSource();
+            if (this.sitGoal != null)
+                this.sitGoal.setSitting(false);
+
             if (entity != null && !(entity instanceof AbstractArrowEntity))
                 amount = (amount + 1.0F) / 2.0F;
 
