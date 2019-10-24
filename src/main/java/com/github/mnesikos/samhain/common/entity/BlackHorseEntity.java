@@ -6,6 +6,10 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.horse.AbstractHorseEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
@@ -30,7 +34,7 @@ public class BlackHorseEntity extends AbstractHorseEntity {
     }
 
     @Override
-    public boolean canMateWith(AnimalEntity otherAnimal) {
+    protected boolean canMate() {
         return false;
     }
 

@@ -82,5 +82,6 @@ public class RegistryEvents {
         RenderingRegistry.registerEntityRenderingHandler(BlackPigEntity.class, BlackPigRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(LadyGwenEntity.class, LadyGwenRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(BlackHorseEntity.class, BlackHorseRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(DullahanEntity.class, DullahanRenderer::new);
     }
 }
