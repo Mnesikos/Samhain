@@ -2,11 +2,16 @@ package com.github.mnesikos.samhain.common.entity;
 
 import com.github.mnesikos.samhain.init.ModEntities;
 import net.minecraft.entity.*;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -22,6 +27,12 @@ public class DullahanEntity extends CreatureEntity {
 
     @Override
     protected void registerGoals() {
+        this.goalSelector.addGoal(0, new SwimGoal(this));
+        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.2D, false));
+        this.goalSelector.addGoal(7, new WaterAvoidingRandomWalkingGoal(this, 1.0D, 4.0F));
+        this.goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 12.0F));
+        this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
+        this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
     }
 
     @Override
@@ -49,6 +60,23 @@ public class DullahanEntity extends CreatureEntity {
         }
 
         return super.onInitialSpawn(world, difficultyInstance, spawnReason, entityData, nbt);
+    }
+
+    @Override
+    public boolean attackEntityFrom(DamageSource source, float amount) {
+        if (this.isInvulnerableTo(source))
+            return false;
+
+        else {
+            Entity entity = source.getTrueSource();
+
+            if (entity != null && !(entity instanceof AbstractArrowEntity)) {
+                this.dead = true;
+                // todo spawn reinforcements!
+            }
+
+            return super.attackEntityFrom(source, amount);
+        }
     }
 
     public int getVariant() {

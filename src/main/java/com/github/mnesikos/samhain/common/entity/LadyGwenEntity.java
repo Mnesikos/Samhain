@@ -30,8 +30,8 @@ public class LadyGwenEntity extends CreatureEntity {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new SwimGoal(this));
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 2.0D, false));
-        this.goalSelector.addGoal(7, new WaterAvoidingRandomWalkingGoal(this, 1.0D, 10.0F));
-        this.goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.addGoal(7, new WaterAvoidingRandomWalkingGoal(this, 1.0D, 4.0F));
+        this.goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 12.0F));
         this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
         this.targetSelector.addGoal(1, new FindPlayerGoal(this));
         this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
