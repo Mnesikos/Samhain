@@ -16,10 +16,6 @@ public class DimensionBase extends ModDimension {
     private final BiConsumer<PacketBuffer, Boolean> write;
     private final BiConsumer<PacketBuffer, Boolean> read;
 
-    public DimensionBase(BiFunction<World, DimensionType, ? extends Dimension> factory) {
-        this(factory, null, null);
-    }
-
     public DimensionBase(BiFunction<World, DimensionType, ? extends Dimension> factory, BiConsumer<PacketBuffer, Boolean> write, BiConsumer<PacketBuffer, Boolean> read) {
         this.factory = factory;
         this.write = write;

@@ -2,6 +2,8 @@ package com.github.mnesikos.samhain.common.event;
 
 import com.github.mnesikos.samhain.Samhain;
 import com.github.mnesikos.samhain.init.ModDimensions;
+import io.netty.buffer.Unpooled;
+import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.event.world.RegisterDimensionsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -13,6 +15,6 @@ public class CommonEvents {
     @SubscribeEvent
     public static void registerDimensions(RegisterDimensionsEvent event) {
         //all dimensions registered need to have their type set through here
-        ModDimensions.setType(ModDimensions.OTHERWORLD, null, false);
+        ModDimensions.setType(ModDimensions.OTHERWORLD, new PacketBuffer(Unpooled.buffer()), false);
     }
 }

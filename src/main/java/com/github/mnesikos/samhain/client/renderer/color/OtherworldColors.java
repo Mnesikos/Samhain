@@ -1,5 +1,6 @@
 package com.github.mnesikos.samhain.client.renderer.color;
 
+//import com.github.mnesikos.samhain.init.ModConfiguration;
 import com.github.mnesikos.samhain.init.ModDimensions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.BlockPos;
@@ -34,6 +35,11 @@ public class OtherworldColors {
         if(inOtherworld() && p_217612_0_ != null && p_217612_1_ != null) return getFoliageColor(p_217612_0_, p_217612_1_);
         return FoliageColors.getBirch();
     }
+
+    /*@SuppressWarnings("unused")
+    public static int getLiquidColor(IEnviromentBlockReader p_217612_0_, BlockPos p_217612_1_) {
+        return ModConfiguration.INSTANCE.changeOtherworldWater.get() ? getWaterColor(p_217612_0_, p_217612_1_) : BiomeColors.getWaterColor(p_217612_0_, p_217612_1_);
+    }*/
 
     private static int getColor(int otherworld, int overworld) {
         return inOtherworld() ? otherworld : overworld;

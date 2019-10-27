@@ -12,9 +12,11 @@ public class ModConfiguration {
     public static final ForgeConfigSpec SPEC;
     public static final ModConfiguration INSTANCE;
     public final ForgeConfigSpec.ConfigValue<List<String>> spiritTypes;
+    //public final ForgeConfigSpec.BooleanValue changeOtherworldWater;
 
     private ModConfiguration(ForgeConfigSpec.Builder builder) {
         spiritTypes = builder.comment("The ageable entities that can be spawned as a Spirit(Uses domain 'minecraft' by default)").translation(Samhain.MOD_ID + ".spiritTypes").define("spiritTypes", Arrays.asList("cow", "wolf", "parrot", "fox", "panda", "villager", "pig", "sheep", "chicken"));
+        //changeOtherworldWater = builder.comment("Change the color of water in the Otherworld using a coremod").translation(Samhain.MOD_ID + ".changeOtherworldWater").define("changeOtherworldWater", true);
     }
 
     static {

@@ -1,5 +1,6 @@
 package com.github.mnesikos.samhain.common.world.gen;
 
+import com.github.mnesikos.samhain.init.ModEntities;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
@@ -12,20 +13,13 @@ import net.minecraft.world.gen.NoiseChunkGenerator;
 import net.minecraft.world.gen.OctavesNoiseGenerator;
 import net.minecraft.world.gen.OverworldGenSettings;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class OtherworldChunkGenerator extends NoiseChunkGenerator<OverworldGenSettings> {
 
     private static final Map<EntityClassification, List<Biome.SpawnListEntry>> CREATURES = new HashMap<EntityClassification, List<Biome.SpawnListEntry>>() {{
-        //define creatures of each type here, if empty replace with `new ArrayList<>()`, if it has one entry replace with `Collections.singletonList()`
-        put(EntityClassification.MONSTER, Arrays.asList());
-        put(EntityClassification.CREATURE, Arrays.asList());
-        put(EntityClassification.AMBIENT, Arrays.asList());
-        put(EntityClassification.WATER_CREATURE, Arrays.asList());
-        put(EntityClassification.MISC, Arrays.asList());
+        put(EntityClassification.CREATURE, Arrays.asList(new Biome.SpawnListEntry(ModEntities.LADY_GWEN, 5, 1, 1), new Biome.SpawnListEntry(ModEntities.DULLAHAN, 10, 1, 1), new Biome.SpawnListEntry(ModEntities.SIDHE, 5, 4, 6)));
+        put(EntityClassification.AMBIENT, Collections.singletonList(new Biome.SpawnListEntry(ModEntities.SPIRIT, 5, 1, 2)));
     }};
 
     private static final float[] field_222576_h = Util.make(new float[25], arr -> {
@@ -121,7 +115,7 @@ public class OtherworldChunkGenerator extends NoiseChunkGenerator<OverworldGenSe
     }
 
     public List<Biome.SpawnListEntry> getPossibleCreatures(EntityClassification p_177458_1_, BlockPos p_177458_2_) {
-        return CREATURES.get(p_177458_1_);
+        return CREATURES.putIfAbsent(p_177458_1_, new ArrayList<>());
     }
 
     public int getGroundHeight() {
