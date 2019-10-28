@@ -3,6 +3,9 @@ package com.github.mnesikos.samhain.common.entity;
 import com.github.mnesikos.samhain.init.ModEntities;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.monster.SkeletonEntity;
+import net.minecraft.entity.monster.WitchEntity;
+import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -10,15 +13,14 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
-public class DullahanEntity extends CreatureEntity {
-    private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(DullahanEntity.class, DataSerializers.VARINT);
-
+public class DullahanEntity extends SamhainCreatureEntity {
     public DullahanEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
         super(type, worldIn);
     }
@@ -40,17 +42,10 @@ public class DullahanEntity extends CreatureEntity {
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.2D);
     }
 
-    @Override
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(VARIANT, 0);
-    }
-
     @Nullable
     @Override
     public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficultyInstance, SpawnReason spawnReason, @Nullable ILivingEntityData entityData, @Nullable CompoundNBT nbt) {
-        int maxVariants = 5;
-        this.setVariant(this.getRNG().nextInt(maxVariants));
+        this.setVariant(this.getRNG().nextInt(5));
 
         BlackHorseEntity horse = (BlackHorseEntity) ModEntities.BLACK_HORSE.spawn(this.world, null, null, this.getPosition().add(1.0F, 1.0F, 1.0F), spawnReason, false, false);
         if (horse != null) {
@@ -61,6 +56,19 @@ public class DullahanEntity extends CreatureEntity {
     }
 
     @Override
+    public void livingTick() {
+        if (world.getClosestPlayer(this, 20.0D) != null) {
+            PlayerEntity player = world.getClosestPlayer(this, 20.0D);
+            if (player != null && !player.canEntityBeSeen(this) && !player.isCreative()) {
+                this.spawnHorde(player, this.posX, this.posY, this.posZ);
+                this.remove(); //todo remove horse here and @attackEntityFrom too
+            }
+        }
+
+        super.livingTick();
+    }
+
+    @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
         if (this.isInvulnerableTo(source))
             return false;
@@ -68,37 +76,37 @@ public class DullahanEntity extends CreatureEntity {
         else {
             Entity entity = source.getTrueSource();
 
-            if (entity != null && !(entity instanceof AbstractArrowEntity)) {
-                this.dead = true;
-                // todo spawn reinforcements!
+            if (entity instanceof PlayerEntity && !(source.getImmediateSource() instanceof AbstractArrowEntity)) {
+                this.spawnHorde((PlayerEntity) entity, this.posX, this.posY, this.posZ);
+                this.remove();
             }
 
             return super.attackEntityFrom(source, amount);
         }
     }
 
-    public int getVariant() {
-        return this.dataManager.get(VARIANT);
-    }
-
-    private void setVariant(int variant) {
-        this.dataManager.set(VARIANT, variant);
-    }
-
-    @Override
-    public boolean writeUnlessRemoved(CompoundNBT compound) {
-        compound.putInt("Variant", this.getVariant());
-        return super.writeUnlessRemoved(compound);
-    }
-
-    @Override
-    public void read(CompoundNBT nbt) {
-        super.read(nbt);
-        this.dataManager.set(VARIANT, nbt.getInt("Variant"));
-    }
-
-    @Override
-    public boolean canBeLeashedTo(PlayerEntity player) {
-        return false;
+    private void spawnHorde(PlayerEntity player, double x, double y, double z) {
+        //todo spawn reinforcements!
+        for (int i = 0; i < rand.nextInt(6) +1; i++) {
+            ZombieEntity zombies = new ZombieEntity(world);
+            zombies.setLocationAndAngles(x, y, z, 0.0F, 0.0F);
+            zombies.onInitialSpawn(world, world.getDifficultyForLocation(this.getPosition()), SpawnReason.MOB_SUMMONED, null, null);
+            zombies.setAttackTarget(player);
+            this.world.addEntity(zombies);
+        }
+        for (int j = 0; j < rand.nextInt(3) +1; j++) {
+            SkeletonEntity skeletons = new SkeletonEntity(EntityType.SKELETON, world);
+            skeletons.setLocationAndAngles(x, y, z, 0.0F, 0.0F);
+            skeletons.onInitialSpawn(world, world.getDifficultyForLocation(this.getPosition()), SpawnReason.MOB_SUMMONED, null, null);
+            skeletons.setAttackTarget(player);
+            this.world.addEntity(skeletons);
+        }
+        for (int k = 0; k < rand.nextInt(2) +1; k++) {
+            WitchEntity witches = new WitchEntity(EntityType.WITCH, world);
+            witches.setLocationAndAngles(x, y, z, 0.0F, 0.0F);
+            witches.onInitialSpawn(world, world.getDifficultyForLocation(this.getPosition()), SpawnReason.MOB_SUMMONED, null, null);
+            witches.setAttackTarget(player);
+            this.world.addEntity(witches);
+        }
     }
 }

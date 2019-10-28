@@ -14,6 +14,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvent;
@@ -56,13 +57,17 @@ public class BlackHorseEntity extends AbstractHorseEntity {
 
     @Override
     public void livingTick() {
-        if (this.getControllingPassenger() instanceof DullahanEntity) {
-            DullahanEntity dullahan = (DullahanEntity) this.getControllingPassenger();
-            if (!dullahan.isAlive() && !(dullahan.getLastDamageSource().getTrueSource() instanceof AbstractArrowEntity)) {
-                // todo fix NullPointerException crash
-                this.dead = true;
+        if (this.world.isRemote) {
+            for(int i = 0; i < 2; ++i) {
+                this.world.addParticle(ParticleTypes.FLAME,
+                        this.posX + (this.rand.nextDouble() - 0.5D) * (double)this.getWidth(),
+                        this.posY + this.rand.nextDouble() * (double)this.getHeight() - 0.25D,
+                        this.posZ + (this.rand.nextDouble() - 0.5D) * (double)this.getWidth(),
+                        (this.rand.nextDouble() - 0.5D) * 2.0D, -this.rand.nextDouble(),
+                        (this.rand.nextDouble() - 0.5D) * 2.0D); // todo get this particle shit together
             }
         }
+
         super.livingTick();
     }
 

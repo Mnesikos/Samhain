@@ -1,6 +1,7 @@
 package com.github.mnesikos.samhain.client.renderer.entity.model;
 
 import com.github.mnesikos.samhain.common.entity.DullahanEntity;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -22,8 +23,24 @@ public class DullahanModel<T extends DullahanEntity> extends PlayerModel<T> {
 
     @Override
     public void render(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-        super.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+        this.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
         this.isLeftHanded = entityIn.isLeftHanded();
+        GlStateManager.pushMatrix();
+        if (entityIn.shouldRenderSneaking())
+            GlStateManager.translatef(0.0F, 0.2F, 0.0F);
+
+        this.bipedBody.render(scale);
+        this.bipedRightArm.render(scale);
+        this.bipedLeftArm.render(scale);
+        this.bipedRightLeg.render(scale);
+        this.bipedLeftLeg.render(scale);
+
+        this.bipedLeftLegwear.render(scale);
+        this.bipedRightLegwear.render(scale);
+        this.bipedLeftArmwear.render(scale);
+        this.bipedRightArmwear.render(scale);
+        this.bipedBodyWear.render(scale);
+        GlStateManager.popMatrix();
     }
 
     @Override

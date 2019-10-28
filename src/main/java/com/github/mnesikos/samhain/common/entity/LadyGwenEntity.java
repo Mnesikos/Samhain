@@ -19,9 +19,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
-public class LadyGwenEntity extends CreatureEntity {
-    private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(LadyGwenEntity.class, DataSerializers.VARINT);
-
+public class LadyGwenEntity extends SamhainCreatureEntity {
     public LadyGwenEntity(EntityType<? extends CreatureEntity> entity, World world) {
         super(entity, world);
     }
@@ -46,17 +44,10 @@ public class LadyGwenEntity extends CreatureEntity {
         this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(0.0D);
     }
 
-    @Override
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(VARIANT, 0);
-    }
-
     @Nullable
     @Override
     public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficultyInstance, SpawnReason spawnReason, @Nullable ILivingEntityData entityData, @Nullable CompoundNBT nbt) {
-        int maxVariants = 5;
-        this.setVariant(this.getRNG().nextInt(maxVariants));
+        this.setVariant(this.getRNG().nextInt(5));
 
         BlackPigEntity pig = (BlackPigEntity) ModEntities.BLACK_PIG.spawn(this.world, null, null, this.getPosition().add(1.0F, 1.0F, 1.0F), spawnReason, false, false);
         if (pig != null) {
@@ -66,31 +57,6 @@ public class LadyGwenEntity extends CreatureEntity {
         }
 
         return super.onInitialSpawn(world, difficultyInstance, spawnReason, entityData, nbt);
-    }
-
-    public int getVariant() {
-        return this.dataManager.get(VARIANT);
-    }
-
-    private void setVariant(int variant) {
-        this.dataManager.set(VARIANT, variant);
-    }
-
-    @Override
-    public boolean writeUnlessRemoved(CompoundNBT compound) {
-        compound.putInt("Variant", this.getVariant());
-        return super.writeUnlessRemoved(compound);
-    }
-
-    @Override
-    public void read(CompoundNBT nbt) {
-        super.read(nbt);
-        this.dataManager.set(VARIANT, nbt.getInt("Variant"));
-    }
-
-    @Override
-    public boolean canBeLeashedTo(PlayerEntity player) {
-        return false;
     }
 
     @Override
