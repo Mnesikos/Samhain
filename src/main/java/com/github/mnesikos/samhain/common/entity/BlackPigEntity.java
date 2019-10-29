@@ -216,9 +216,9 @@ public class BlackPigEntity extends TameableEntity {
             if (entity != null && !(entity instanceof AbstractArrowEntity))
                 amount = (amount + 1.0F) / 2.0F;
 
-            // todo check if pig healing works
+            // todo check if pig healing works (it doesn't)
             if (this.getHealth() < this.getMaxHealth() / 2)
-                this.addPotionEffect(new EffectInstance(Effects.REGENERATION, 200, 0, false, false));
+                this.addPotionEffect(new EffectInstance(Effects.REGENERATION, 200, 0, false, true));
 
             return super.attackEntityFrom(source, amount);
         }

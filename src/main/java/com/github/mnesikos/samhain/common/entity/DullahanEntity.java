@@ -50,6 +50,9 @@ public class DullahanEntity extends SamhainCreatureEntity {
         BlackHorseEntity horse = (BlackHorseEntity) ModEntities.BLACK_HORSE.spawn(this.world, null, null, this.getPosition().add(1.0F, 1.0F, 1.0F), spawnReason, false, false);
         if (horse != null) {
             this.startRiding(horse);
+            horse.setHorseTamed(true);
+            horse.setOwnerUniqueId(this.getUniqueID());
+            horse.setHasDullahan(true);
         }
 
         return super.onInitialSpawn(world, difficultyInstance, spawnReason, entityData, nbt);
@@ -61,7 +64,9 @@ public class DullahanEntity extends SamhainCreatureEntity {
             PlayerEntity player = world.getClosestPlayer(this, 20.0D);
             if (player != null && !player.canEntityBeSeen(this) && !player.isCreative()) {
                 this.spawnHorde(player, this.posX, this.posY, this.posZ);
-                this.remove(); //todo remove horse here and @attackEntityFrom too
+                if (this.getRidingEntity() != null)
+                    this.getRidingEntity().remove();
+                this.remove();
             }
         }
 
@@ -78,6 +83,8 @@ public class DullahanEntity extends SamhainCreatureEntity {
 
             if (entity instanceof PlayerEntity && !(source.getImmediateSource() instanceof AbstractArrowEntity)) {
                 this.spawnHorde((PlayerEntity) entity, this.posX, this.posY, this.posZ);
+                if (this.getRidingEntity() != null)
+                    this.getRidingEntity().remove();
                 this.remove();
             }
 
@@ -86,7 +93,6 @@ public class DullahanEntity extends SamhainCreatureEntity {
     }
 
     private void spawnHorde(PlayerEntity player, double x, double y, double z) {
-        //todo spawn reinforcements!
         for (int i = 0; i < rand.nextInt(6) +1; i++) {
             ZombieEntity zombies = new ZombieEntity(world);
             zombies.setLocationAndAngles(x, y, z, 0.0F, 0.0F);

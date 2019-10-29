@@ -17,12 +17,12 @@ public class ModEntities extends ModRegistry<EntityType<?>> {
     private static final Map<EntityType<?>, Tuple<Integer, Integer>> EGGS = new HashMap<>();
     public static final EntityType<SpiritEntity> SPIRIT = create(SpiritEntity::new, EntityClassification.AMBIENT, 1, 1, false, 0xB0C9FA, 0xCADBE7, "spirit");
     public static final EntityType<SidheEntity> SIDHE = create(SidheEntity::new, EntityClassification.CREATURE, 0.3F, 0.5F, false, 0xEAF3B0, 0x82C45F, "sidhe");
-    public static final EntityType<LadyGwenEntity> LADY_GWEN = create(LadyGwenEntity::new, EntityClassification.CREATURE, 1, 1.5F, true, 0xE4F3F9, 0x503D31, "lady_gwen");
+    public static final EntityType<LadyGwenEntity> LADY_GWEN = create(LadyGwenEntity::new, EntityClassification.CREATURE, 1, 1.5F, false, 0xE4F3F9, 0x503D31, "lady_gwen");
     public static final EntityType<BlackPigEntity> BLACK_PIG = create(BlackPigEntity::new, EntityClassification.CREATURE, 1, 1, false, "black_pig");
-    public static final EntityType<DullahanEntity> DULLAHAN = create(DullahanEntity::new, EntityClassification.CREATURE, 1, 2, false, 0x00, 0x00, "dullahan");
+    public static final EntityType<DullahanEntity> DULLAHAN = create(DullahanEntity::new, EntityClassification.CREATURE, 1, 1.5F, false, 0x00, 0x00, "dullahan");
     public static final EntityType<BlackHorseEntity> BLACK_HORSE = create(BlackHorseEntity::new, EntityClassification.CREATURE, 1.5F, 1.6F, false, "black_horse");
 
-    //todo fix hit boxes, add configurable spawns
+    //todo fix spirit hit boxes, add configurable spawns
 
     private static <T extends Entity> EntityType<T> create(EntityType.IFactory<T> factoryIn, EntityClassification classificationIn, float width, float height, boolean velocity, int primary, int secondary, String name) {
         EntityType<T> type = create(factoryIn, classificationIn, width, height, velocity, name);

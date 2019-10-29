@@ -19,13 +19,19 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import java.util.List;
+import java.util.UUID;
 
 public class BlackHorseEntity extends AbstractHorseEntity {
+    private static final DataParameter<Boolean> HAS_DULLAHAN = EntityDataManager.createKey(BlackHorseEntity.class, DataSerializers.BOOLEAN);
+
     public BlackHorseEntity(EntityType<? extends AbstractHorseEntity> entity, World worldIn) {
         super(entity, worldIn);
     }
@@ -47,6 +53,61 @@ public class BlackHorseEntity extends AbstractHorseEntity {
         this.getAttribute(JUMP_STRENGTH).setBaseValue(this.getModifiedJumpStrength());
     }
 
+    @Override
+    protected void registerData() {
+        super.registerData();
+        this.dataManager.register(HAS_DULLAHAN, false);
+    }
+
+    @Override
+    public void writeAdditional(CompoundNBT compound) {
+        super.writeAdditional(compound);
+        compound.putBoolean("HasDullahan", this.hasDullahan());
+    }
+
+    @Override
+    public void readAdditional(CompoundNBT compound) {
+        super.readAdditional(compound);
+        String s;
+        if (compound.contains("OwnerUUID")) {
+            s = compound.getString("OwnerUUID");
+            if (!s.isEmpty())
+                this.setOwnerUniqueId(UUID.fromString(s));
+        }
+        this.setHasDullahan(compound.getBoolean("HasDullahan"));
+    }
+
+    public boolean hasDullahan() {
+        return this.dataManager.get(HAS_DULLAHAN);
+    }
+
+    public void setHasDullahan(boolean hasDullahan) {
+        this.dataManager.set(HAS_DULLAHAN, hasDullahan);
+    }
+
+    private DullahanEntity getDullahan() {
+        if (this.isTame() && this.hasDullahan()) {
+            DullahanEntity dullahan = null;
+            UUID dullahanId = this.getOwnerUniqueId();
+            if (dullahanId != null) {
+                int f = 20;
+                BlockPos posMin = this.getPosition().add(-f, -3, -f);
+                BlockPos posMax = this.getPosition().add(f, 6, f);
+                AxisAlignedBB boundingBox = new AxisAlignedBB(posMin, posMax);
+                List<DullahanEntity> list = this.world.getEntitiesWithinAABB(DullahanEntity.class, boundingBox);
+
+                for (DullahanEntity DullahanEntity : list) {
+                    if (DullahanEntity != null && DullahanEntity.getUniqueID().equals(dullahanId)) {
+                        dullahan = DullahanEntity;
+                        break;
+                    }
+                }
+            }
+            return dullahan;
+        }
+        return null;
+    }
+
     @Nullable
     @Override
     public ILivingEntityData onInitialSpawn(IWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
@@ -65,6 +126,25 @@ public class BlackHorseEntity extends AbstractHorseEntity {
                         this.posZ + (this.rand.nextDouble() - 0.5D) * (double)this.getWidth(),
                         (this.rand.nextDouble() - 0.5D) * 2.0D, -this.rand.nextDouble(),
                         (this.rand.nextDouble() - 0.5D) * 2.0D); // todo get this particle shit together
+            }
+        }
+
+        if (this.isTame() && this.hasDullahan()) {
+            /*if (this.getOwnerUniqueId() != null && this.getDullahan() != null && !this.getDullahan().isAlive()) {
+                if (this.getDullahan().getLastDamageSource() != null && this.getDullahan().getLastDamageSource().getImmediateSource() instanceof AbstractArrowEntity) {
+                    this.setHorseTamed(false);
+                    this.setOwnerUniqueId(null);
+                    this.setHasDullahan(false);
+                } else {
+                    this.remove();
+                }
+
+            } else if (this.getDullahan() == null) {
+                this.remove();
+
+            } else */if (this.getDullahan() != null && this.getPassengers().isEmpty()) {
+                DullahanEntity dullahan = this.getDullahan();
+                dullahan.startRiding(this);
             }
         }
 

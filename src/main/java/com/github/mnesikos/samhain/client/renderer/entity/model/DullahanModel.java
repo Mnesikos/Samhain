@@ -61,7 +61,7 @@ public class DullahanModel<T extends DullahanEntity> extends PlayerModel<T> {
         this.bipedLeftArmwear.copyModelAngles(bipedLeftArm);
         this.bipedRightArmwear.copyModelAngles(bipedRightArm);
         this.bipedHead.setRotationPoint(0.0F, 13.0F, 0.0F);
-        this.bipedHead.rotateAngleX = -1.4F;
+        this.bipedHead.rotateAngleX = -0.5F;
         this.bipedHeadwear.copyModelAngles(bipedHead);
     }
 }
