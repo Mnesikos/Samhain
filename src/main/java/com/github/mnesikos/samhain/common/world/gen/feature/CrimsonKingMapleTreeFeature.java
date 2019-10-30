@@ -1,8 +1,8 @@
 package com.github.mnesikos.samhain.common.world.gen.feature;
 
 import com.github.mnesikos.samhain.init.ModBlocks;
-import com.mojang.datafixers.Dynamic;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.LeavesBlock;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
@@ -13,15 +13,15 @@ import net.minecraft.world.gen.feature.NoFeatureConfig;
 
 import java.util.Random;
 import java.util.Set;
-import java.util.function.Function;
 
 public class CrimsonKingMapleTreeFeature extends AbstractTreeFeature<NoFeatureConfig> {
-    private static final BlockState LOG = ModBlocks.CRIMSON_KING_MAPLE_LOG.getDefaultState();
-    private static final BlockState LEAVES = ModBlocks.CRIMSON_KING_MAPLE_LEAVES.getDefaultState();
+    public static final BlockState LOG = ModBlocks.CRIMSON_KING_MAPLE_LOG.getDefaultState();
+    public static final BlockState LEAVES = ModBlocks.CRIMSON_KING_MAPLE_LEAVES.getDefaultState().with(LeavesBlock.PERSISTENT, true);
 
-    public CrimsonKingMapleTreeFeature(Function<Dynamic<?>, ? extends NoFeatureConfig> dynamicFunction, boolean doBlockNofityOnPlace) {
-        super(dynamicFunction, doBlockNofityOnPlace);
+    public CrimsonKingMapleTreeFeature(boolean doBlockNofityOnPlace) {
+        super(NoFeatureConfig::deserialize, doBlockNofityOnPlace);
         setSapling(ModBlocks.CRIMSON_KING_MAPLE_SAPLING);
+        setRegistryName("crimson_king_maple_tree");
     }
 
     @Override
@@ -170,6 +170,5 @@ public class CrimsonKingMapleTreeFeature extends AbstractTreeFeature<NoFeatureCo
         if (isAir(generationReader, blockpos)) {
             this.setLogState(blockPos, generationReader, blockpos, LEAVES, mutableBoundingBox);
         }
-
     }
 }

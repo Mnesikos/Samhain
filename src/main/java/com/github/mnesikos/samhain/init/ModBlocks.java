@@ -33,8 +33,7 @@ public class ModBlocks extends ModRegistry<Block> {
     //public static final ModBlock CRIMSON_KING_MAPLE_FENCE_GATE = new ModBlock("", );
     //public static final ModBlock CRIMSON_KING_MAPLE_BUTTON = new ModBlock("", );
     public static final ModBlock OTHERWORLD_PORTAL = new OtherworldPortalBlock();
-    //public static final GravestoneBlock GRAVESTONE_1 = new GravestoneBlock("gravestone_1");
-    //public static final GravestoneBlock GRAVESTONE_2 = new GravestoneBlock("gravestone_2");
+    public static final GravestoneBlock GRAVESTONE = new GravestoneBlock();
 
     public static void registerItemBlocks(List<Item> registry) {
         registry.addAll(ITEM_BLOCKS);

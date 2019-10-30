@@ -1,0 +1,19 @@
+{
+	"textures": {
+		"particle": "#gravestone"
+	},
+	"elements": [
+		{
+			"from": [2, 0, 7],
+			"to": [14, 16, 9],
+			"faces": {
+				"north": {"uv": [1, 1, 7, 9], "texture": "#gravestone"},
+				"east": {"uv": [0, 1, 1, 9], "texture": "#gravestone"},
+				"south": {"uv": [8, 1, 14, 9], "texture": "#gravestone"},
+				"west": {"uv": [7, 1, 8, 9], "texture": "#gravestone"},
+				"up": {"uv": [7, 1, 1, 0], "texture": "#gravestone"},
+				"down": {"uv": [13, 0, 7, 1], "texture": "#gravestone"}
+			}
+		}
+	]
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "samhain:block/gravestone_cross",
+  "textures": {
+    "gravestone": "samhain:block/gravestone_2"
+  }
+}

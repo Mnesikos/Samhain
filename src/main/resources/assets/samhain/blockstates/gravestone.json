@@ -1,0 +1,8 @@
+{
+  "variants": {
+      "style=cross_stone": {"model":"samhain:block/gravestone_cross_stone"},
+      "style=rip_stone": {"model":"samhain:block/gravestone_rip_stone"},
+      "style=cross_gold": {"model":"samhain:block/gravestone_cross_gold"},
+      "style=rip_gold": {"model":"samhain:block/gravestone_rip_gold"}
+  }
+}

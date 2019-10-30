@@ -18,6 +18,6 @@ public class CrimsonKingMapleTree extends BigTree {
     @Nullable
     @Override
     protected AbstractTreeFeature<NoFeatureConfig> getBigTreeFeature(Random random) {
-        return new CrimsonKingMapleTreeFeature(NoFeatureConfig::deserialize, true);
+        return new CrimsonKingMapleTreeFeature(true);
     }
 }

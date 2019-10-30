@@ -13,6 +13,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.provider.BiomeProvider;
 import net.minecraft.world.gen.*;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 
 import java.util.*;
@@ -119,12 +120,20 @@ public class OtherworldChunkGenerator extends NoiseChunkGenerator<OverworldGenSe
     @Override
     public void decorate(WorldGenRegion p_202092_1_) {
         super.decorate(p_202092_1_);
-        BlockPos pos = new BlockPos(p_202092_1_.getMainChunkX() * 16 + p_202092_1_.getRandom().nextInt(32) - 16, 0, p_202092_1_.getMainChunkZ() * 16 + p_202092_1_.getRandom().nextInt(32) - 16);
-        if(p_202092_1_.getRandom().nextBoolean()) p_202092_1_.setBlockState(p_202092_1_.getHeight(Heightmap.Type.WORLD_SURFACE, pos), Blocks.COBWEB.getDefaultState(), 2);
-        /*else {
-            Feature<NoFeatureConfig> feature = ModFeatures.PUMPKIN_PATCH; // todo graveyard
-            feature.place(p_202092_1_, this, p_202092_1_.getRandom(), pos, new NoFeatureConfig());
-        }*/
+        int chunk = 16;
+        BlockPos pos = new BlockPos(p_202092_1_.getMainChunkX() * chunk + p_202092_1_.getRandom().nextInt(chunk * 2) - chunk, 0, p_202092_1_.getMainChunkZ() * chunk + p_202092_1_.getRandom().nextInt(chunk * 2) - chunk);
+        switch (p_202092_1_.getRandom().nextInt(3)) {
+            case 0:
+                p_202092_1_.setBlockState(p_202092_1_.getHeight(Heightmap.Type.WORLD_SURFACE, pos), Blocks.COBWEB.getDefaultState(), 2);
+                break;
+            case 1:
+                Feature<NoFeatureConfig> feature = p_202092_1_.getRandom().nextBoolean() ? ModFeatures.GRAVEYARD : ModFeatures.PUMPKIN_PATCH;
+                feature.place(p_202092_1_, this, p_202092_1_.getRandom(), pos, IFeatureConfig.NO_FEATURE_CONFIG);
+                break;
+            case 2:
+                ModFeatures.CRIMSON_KING_MAPLE_TREE.place(world, this, p_202092_1_.getRandom(), pos, IFeatureConfig.NO_FEATURE_CONFIG);
+                break;
+        }
     }
 
     public List<Biome.SpawnListEntry> getPossibleCreatures(EntityClassification p_177458_1_, BlockPos p_177458_2_) {

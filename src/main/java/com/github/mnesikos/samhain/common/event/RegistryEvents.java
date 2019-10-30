@@ -18,8 +18,14 @@ import net.minecraft.state.properties.DoubleBlockHalf;
 import net.minecraft.world.FoliageColors;
 import net.minecraft.world.GrassColors;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.gen.ChunkGeneratorType;
+import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.IFeatureConfig;
+import net.minecraft.world.gen.feature.MultipleRandomFeatureConfig;
+import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
+import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.common.BiomeDictionary;
@@ -64,6 +70,8 @@ public class RegistryEvents {
             }
         }
         //for (Biome biome : BiomeDictionary.getBiomes(BiomeDictionary.Type.FOREST)) biome.getSpawns(EntityClassification.CREATURE).add(new Biome.SpawnListEntry(ModEntities.SIDHE, 1, 3, 6));
+        Biomes.FOREST.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Biome.createDecoratedFeature(Feature.RANDOM_SELECTOR, new MultipleRandomFeatureConfig(new Feature[]{ModFeatures.CRIMSON_KING_MAPLE_TREE}, new IFeatureConfig[]{IFeatureConfig.NO_FEATURE_CONFIG}, new float[]{0.01F}, ModFeatures.CRIMSON_KING_MAPLE_TREE, IFeatureConfig.NO_FEATURE_CONFIG), Placement.COUNT_EXTRA_HEIGHTMAP, new AtSurfaceWithExtraConfig(0, 0.1F, 1)));
+        Biomes.FOREST.addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, Biome.createDecoratedFeature(Feature.RANDOM_SELECTOR, new MultipleRandomFeatureConfig(new Feature[]{ModFeatures.OTHERWORLD_PORTAL}, new IFeatureConfig[]{IFeatureConfig.NO_FEATURE_CONFIG}, new float[]{0.1F}, ModFeatures.OTHERWORLD_PORTAL, IFeatureConfig.NO_FEATURE_CONFIG), Placement.COUNT_EXTRA_HEIGHTMAP, new AtSurfaceWithExtraConfig(0, 0, 1)));
     }
 
     @SubscribeEvent

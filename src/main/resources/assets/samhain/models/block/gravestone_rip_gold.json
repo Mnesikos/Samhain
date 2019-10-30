@@ -1,0 +1,6 @@
+{
+  "parent": "samhain:block/gravestone_rip",
+  "textures": {
+    "gravestone": "samhain:block/gravestone_1_gold"
+  }
+}
