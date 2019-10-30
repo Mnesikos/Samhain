@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": [
+      { "model": "samhain:block/gravestone_1" }
+    ]
+  }
+}

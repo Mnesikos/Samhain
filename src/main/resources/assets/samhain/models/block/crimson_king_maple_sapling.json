@@ -1,0 +1,6 @@
+{
+  "parent": "block/cross",
+  "textures": {
+    "cross": "samhain:block/crimson_king_maple_sapling"
+  }
+}

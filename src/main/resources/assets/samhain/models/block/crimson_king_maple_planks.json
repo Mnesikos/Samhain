@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "samhain:block/crimson_king_maple_planks"
+  }
+}

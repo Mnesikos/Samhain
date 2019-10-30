@@ -1,0 +1,6 @@
+{
+  "parent": "block/leaves",
+  "textures": {
+    "all": "samhain:block/crimson_king_maple_leaves"
+  }
+}

@@ -59,11 +59,11 @@ public class RegistryEvents {
             if(!BiomeDictionary.hasType(biome, BiomeDictionary.Type.WATER)) {
                 biome.getSpawns(EntityClassification.MONSTER).add(new Biome.SpawnListEntry(ModEntities.LADY_GWEN, 1, 1, 1));
                 biome.getSpawns(EntityClassification.MONSTER).add(new Biome.SpawnListEntry(ModEntities.DULLAHAN, 2, 1, 1));
-                biome.getSpawns(EntityClassification.MONSTER).add(new Biome.SpawnListEntry(ModEntities.SPIRIT, 2, 1, 2));
+                /*biome.getSpawns(EntityClassification.MONSTER).add(new Biome.SpawnListEntry(ModEntities.SPIRIT, 2, 1, 2));*/
 
             }
         }
-        for (Biome biome : BiomeDictionary.getBiomes(BiomeDictionary.Type.FOREST)) biome.getSpawns(EntityClassification.CREATURE).add(new Biome.SpawnListEntry(ModEntities.SIDHE, 1, 3, 6));
+        //for (Biome biome : BiomeDictionary.getBiomes(BiomeDictionary.Type.FOREST)) biome.getSpawns(EntityClassification.CREATURE).add(new Biome.SpawnListEntry(ModEntities.SIDHE, 1, 3, 6));
     }
 
     @SubscribeEvent

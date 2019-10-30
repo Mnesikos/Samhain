@@ -1,7 +1,10 @@
 package com.github.mnesikos.samhain.common.block;
 
 import com.github.mnesikos.samhain.init.ModDimensions;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Hand;
@@ -12,7 +15,7 @@ import net.minecraft.world.dimension.DimensionType;
 
 public class OtherworldPortalBlock extends ModBlock {
     public OtherworldPortalBlock() {
-        super("otherworld_portal");
+        super("otherworld_portal", Block.Properties.create(Material.WOOD).hardnessAndResistance(2.0F).sound(SoundType.WOOD));
     }
 
     @Override

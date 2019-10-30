@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "type=bottom": { "model": "samhain:block/crimson_king_maple_slab" },
+    "type=top": { "model": "samhain:block/crimson_king_maple_slab_top" },
+    "type=double": { "model": "samhain:block/crimson_king_maple_planks" }
+  }
+}

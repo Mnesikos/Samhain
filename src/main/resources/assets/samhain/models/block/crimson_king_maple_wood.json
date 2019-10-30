@@ -2,6 +2,6 @@
   "parent": "block/cube_column",
   "textures": {
     "side": "samhain:block/crimson_king_maple_log",
-    "end": "samhain:block/crimson_king_maple_log_top"
+    "end": "samhain:block/crimson_king_maple_log"
   }
 }

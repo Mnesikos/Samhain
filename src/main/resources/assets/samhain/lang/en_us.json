@@ -1,5 +1,13 @@
 {
+  "block.samhain.crimson_king_maple_wood": "Crimson King Maple Wood",
   "block.samhain.crimson_king_maple_log": "Crimson King Maple Log",
+  "block.samhain.crimson_king_maple_leaves": "Crimson King Maple Leaves",
+  "block.samhain.crimson_king_maple_sapling": "Crimson King Maple Sapling",
+  "block.samhain.crimson_king_maple_planks": "Crimson King Maple Planks",
+  "block.samhain.crimson_king_maple_stairs": "Crimson King Maple Stairs",
+  "block.samhain.crimson_king_maple_slab": "Crimson King Maple Slab",
+  "block.samhain.stripped_crimson_king_maple_log": "Stripped Crimson King Maple Log",
+  "block.samhain.stripped_crimson_king_maple_wood": "Stripped Crimson King Maple Wood",
 
   "item.samhain.spirit_spawn_egg": "Spirit Spawn Egg",
   "item.samhain.sidhe_spawn_egg": "Sidhe Spawn Egg",

@@ -20,7 +20,7 @@ import java.util.*;
 public class OtherworldChunkGenerator extends NoiseChunkGenerator<OverworldGenSettings> {
 
     private static final Map<EntityClassification, List<Biome.SpawnListEntry>> CREATURES = new HashMap<EntityClassification, List<Biome.SpawnListEntry>>() {{
-        put(EntityClassification.CREATURE, Arrays.asList(new Biome.SpawnListEntry(ModEntities.LADY_GWEN, 5, 1, 1), new Biome.SpawnListEntry(ModEntities.DULLAHAN, 10, 1, 1), new Biome.SpawnListEntry(ModEntities.SIDHE, 5, 4, 6)));
+        put(EntityClassification.CREATURE, Arrays.asList(new Biome.SpawnListEntry(ModEntities.LADY_GWEN, 5, 1, 1), new Biome.SpawnListEntry(ModEntities.DULLAHAN, 10, 1, 1)/*, new Biome.SpawnListEntry(ModEntities.SIDHE, 5, 4, 6)*/));
         put(EntityClassification.AMBIENT, Collections.singletonList(new Biome.SpawnListEntry(ModEntities.SPIRIT, 5, 1, 2)));
     }};
 
@@ -121,10 +121,10 @@ public class OtherworldChunkGenerator extends NoiseChunkGenerator<OverworldGenSe
         super.decorate(p_202092_1_);
         BlockPos pos = new BlockPos(p_202092_1_.getMainChunkX() * 16 + p_202092_1_.getRandom().nextInt(32) - 16, 0, p_202092_1_.getMainChunkZ() * 16 + p_202092_1_.getRandom().nextInt(32) - 16);
         if(p_202092_1_.getRandom().nextBoolean()) p_202092_1_.setBlockState(p_202092_1_.getHeight(Heightmap.Type.WORLD_SURFACE, pos), Blocks.COBWEB.getDefaultState(), 2);
-        else {
-            Feature<NoFeatureConfig> feature = p_202092_1_.getRandom().nextBoolean() ? ModFeatures.GRAVEYARD : ModFeatures.PUMPKIN_PATCH;
+        /*else {
+            Feature<NoFeatureConfig> feature = ModFeatures.PUMPKIN_PATCH; // todo graveyard
             feature.place(p_202092_1_, this, p_202092_1_.getRandom(), pos, new NoFeatureConfig());
-        }
+        }*/
     }
 
     public List<Biome.SpawnListEntry> getPossibleCreatures(EntityClassification p_177458_1_, BlockPos p_177458_2_) {

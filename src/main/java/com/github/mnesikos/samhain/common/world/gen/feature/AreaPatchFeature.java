@@ -12,8 +12,8 @@ import net.minecraft.world.gen.feature.NoFeatureConfig;
 import java.util.Random;
 import java.util.function.Function;
 
-public class AreaPatchFeature extends Feature<NoFeatureConfig> {
-    private final Function<Random, BlockState> stateGetter;
+public class AreaPatchFeature /*extends Feature<NoFeatureConfig>*/ {
+    /*private final Function<Random, BlockState> stateGetter;
     private final Function<Block, Boolean> groundChecker;
 
     public AreaPatchFeature(Function<Random, BlockState> getState) {
@@ -36,5 +36,5 @@ public class AreaPatchFeature extends Feature<NoFeatureConfig> {
             }
         }
         return false;
-    }
+    }*/
 }

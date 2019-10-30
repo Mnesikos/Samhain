@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "end": "samhain:block/stripped_crimson_king_maple_log",
+    "side": "samhain:block/stripped_crimson_king_maple_log"
+  }
+}
