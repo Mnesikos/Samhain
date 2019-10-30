@@ -19,7 +19,7 @@ public class ModEntities extends ModRegistry<EntityType<?>> {
     //public static final EntityType<SidheEntity> SIDHE = create(SidheEntity::new, EntityClassification.CREATURE, 0.3F, 0.5F, false, 0xEAF3B0, 0x82C45F, "sidhe");
     public static final EntityType<LadyGwenEntity> LADY_GWEN = create(LadyGwenEntity::new, EntityClassification.CREATURE, 1, 1.5F, false, 0xE4F3F9, 0x503D31, "lady_gwen");
     public static final EntityType<BlackPigEntity> BLACK_PIG = create(BlackPigEntity::new, EntityClassification.CREATURE, 1, 1, false, "black_pig");
-    public static final EntityType<DullahanEntity> DULLAHAN = create(DullahanEntity::new, EntityClassification.CREATURE, 1, 1.5F, false, 0x00, 0x00, "dullahan");
+    public static final EntityType<DullahanEntity> DULLAHAN = create(DullahanEntity::new, EntityClassification.CREATURE, 1, 1.5F, false, 0x503D31, 0xD8600F, "dullahan");
     public static final EntityType<BlackHorseEntity> BLACK_HORSE = create(BlackHorseEntity::new, EntityClassification.CREATURE, 1.5F, 1.6F, false, "black_horse");
 
     //todo fix spirit hit boxes, add configurable spawns
