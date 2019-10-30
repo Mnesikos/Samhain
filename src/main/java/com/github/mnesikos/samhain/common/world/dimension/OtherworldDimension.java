@@ -10,8 +10,6 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.PacketBuffer;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -36,20 +34,17 @@ import javax.annotation.Nullable;
 public class OtherworldDimension extends Dimension {
 
     private static final ResourceLocation MOON_TEXTURES = new ResourceLocation(Samhain.MOD_ID, "textures/environment/otherworld_moon.png");
-    private CompoundNBT players = new CompoundNBT();
+    //private final DimensionCapabilityProvider holder = new DimensionCapabilityProvider();
 
     public OtherworldDimension(World p_i49936_1_, DimensionType p_i49936_2_) {
         super(p_i49936_1_, p_i49936_2_);
         this.setSkyRenderer(this::renderSky);
     }
 
-    public static void writeData(PacketBuffer buffer, boolean network) {
-
-    }
-
-    public static void readData(PacketBuffer buffer, boolean network) {
-
-    }
+    /*@Override
+    public ICapabilityProvider initCapabilities() {
+        return holder;
+    }*/
 
     @Override
     public ChunkGenerator<?> createChunkGenerator() {
