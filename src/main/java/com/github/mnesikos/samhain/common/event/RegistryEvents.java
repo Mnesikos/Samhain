@@ -19,6 +19,7 @@ import net.minecraft.world.FoliageColors;
 import net.minecraft.world.GrassColors;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.ChunkGeneratorType;
+import net.minecraft.world.gen.feature.Feature;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.common.BiomeDictionary;
@@ -56,8 +57,10 @@ public class RegistryEvents {
     public static void registerBiomes(final RegistryEvent.Register<Biome> event) {
         for (Biome biome : ForgeRegistries.BIOMES) {
             if(!BiomeDictionary.hasType(biome, BiomeDictionary.Type.WATER)) {
-                biome.getSpawns(EntityClassification.CREATURE).add(new Biome.SpawnListEntry(ModEntities.LADY_GWEN, 1, 1, 1));
-                biome.getSpawns(EntityClassification.CREATURE).add(new Biome.SpawnListEntry(ModEntities.DULLAHAN, 2, 1, 1));
+                biome.getSpawns(EntityClassification.MONSTER).add(new Biome.SpawnListEntry(ModEntities.LADY_GWEN, 1, 1, 1));
+                biome.getSpawns(EntityClassification.MONSTER).add(new Biome.SpawnListEntry(ModEntities.DULLAHAN, 2, 1, 1));
+                biome.getSpawns(EntityClassification.MONSTER).add(new Biome.SpawnListEntry(ModEntities.SPIRIT, 2, 1, 2));
+
             }
         }
         for (Biome biome : BiomeDictionary.getBiomes(BiomeDictionary.Type.FOREST)) biome.getSpawns(EntityClassification.CREATURE).add(new Biome.SpawnListEntry(ModEntities.SIDHE, 1, 3, 6));
@@ -67,6 +70,11 @@ public class RegistryEvents {
     public static void registerEntities(final RegistryEvent.Register<EntityType<?>> event) {
         ModRegistry.register(event.getRegistry(), ModEntities::new);
         CapabilityManager.INSTANCE.register(DimensionItemHolder.class, new DimensionCapabilityProvider.HolderStorage(), DimensionCapabilityProvider::new);
+    }
+
+    @SubscribeEvent
+    public static void registerFeatures(final RegistryEvent.Register<Feature<?>> event) {
+        ModRegistry.register(event.getRegistry(), ModFeatures::new);
     }
 
     @SubscribeEvent

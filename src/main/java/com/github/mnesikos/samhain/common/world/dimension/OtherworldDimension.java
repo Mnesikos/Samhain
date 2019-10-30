@@ -34,17 +34,11 @@ import javax.annotation.Nullable;
 public class OtherworldDimension extends Dimension {
 
     private static final ResourceLocation MOON_TEXTURES = new ResourceLocation(Samhain.MOD_ID, "textures/environment/otherworld_moon.png");
-    //private final DimensionCapabilityProvider holder = new DimensionCapabilityProvider();
 
     public OtherworldDimension(World p_i49936_1_, DimensionType p_i49936_2_) {
         super(p_i49936_1_, p_i49936_2_);
         this.setSkyRenderer(this::renderSky);
     }
-
-    /*@Override
-    public ICapabilityProvider initCapabilities() {
-        return holder;
-    }*/
 
     @Override
     public ChunkGenerator<?> createChunkGenerator() {
@@ -120,6 +114,9 @@ public class OtherworldDimension extends Dimension {
         b = b * (f * 0.91F + 0.09F);
         return new Vec3d(r, g, b);
     }
+
+    @Override
+    public void resetRainAndThunder() {}
 
     @Override
     public Vec3d getSkyColor(BlockPos cameraPos, float partialTicks) {
@@ -260,4 +257,7 @@ public class OtherworldDimension extends Dimension {
         GlStateManager.enableTexture();
         GlStateManager.depthMask(true);
     }
+
+    @Override
+    public void updateWeather(Runnable defaultLogic) {}
 }

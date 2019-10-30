@@ -9,6 +9,7 @@ import net.minecraft.nbt.ListNBT;
 import net.minecraft.world.World;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.RegisterDimensionsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -24,8 +25,16 @@ public class CommonEvents {
     }
 
     @SubscribeEvent
-    public static void attachCapabilities(AttachCapabilitiesEvent<World> event) {
-        event.addCapability(DimensionCapabilityProvider.HOLDER_RESOURCE, new DimensionCapabilityProvider());
+    public static void attachCapabilities(AttachCapabilitiesEvent<Entity> event) {
+        if(event.getObject() instanceof PlayerEntity) event.addCapability(DimensionCapabilityProvider.HOLDER_RESOURCE, new DimensionCapabilityProvider());
+    }
+
+    @SubscribeEvent
+    public static void playerClone(PlayerEvent.Clone event) {
+        event.getOriginal().getCapability(DimensionCapabilityProvider.CAPABILITY).ifPresent(itemHolder -> {
+            event.getPlayer().inventory.read(itemHolder.inventory);
+            itemHolder.inventory = null;
+        });
     }
 
     @SubscribeEvent
@@ -34,13 +43,13 @@ public class CommonEvents {
         if(entity instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) entity;
             World world = player.world;
-            world.getCapability(DimensionCapabilityProvider.CAPABILITY).ifPresent(itemHolder -> {
+            player.getCapability(DimensionCapabilityProvider.CAPABILITY).ifPresent(itemHolder -> {
                 if (event.getDimension() == ModDimensions.TYPES.get(ModDimensions.OTHERWORLD)) {
-                    itemHolder.inventories.put(player.getUniqueID(), player.inventory.write(new ListNBT()));
+                    itemHolder.inventory = player.inventory.write(new ListNBT());
                     player.inventory.clear();
-                } else if(itemHolder.inventories.containsKey(player.getUniqueID())){
-                    player.inventory.read(itemHolder.inventories.get(player.getUniqueID()));
-                    itemHolder.inventories.remove(player.getUniqueID());
+                } else if(itemHolder.inventory != null) {
+                    player.inventory.read(itemHolder.inventory);
+                    itemHolder.inventory = null;
                 }
             });
         }

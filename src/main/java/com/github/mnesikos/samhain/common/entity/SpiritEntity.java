@@ -134,18 +134,7 @@ public class SpiritEntity extends AnimalEntity {
 
     @Override
     public void livingTick() {
-        if(this.ticksExisted >= 1200){
-            if(this.ticksExisted == 6000){
-                this.remove();
-            }
-            else{
-                if(this.ticksExisted % 20 == 0){
-                    if(this.rand.nextInt(100) + 1 == 1){
-                        this.remove();
-                    }
-                }
-            }
-        }
+        if(this.ticksExisted >= 1200 && (this.ticksExisted == 6000 || (this.ticksExisted % 20 == 0 && this.rand.nextInt(100) == 0))) this.remove();
         super.livingTick();
     }
 

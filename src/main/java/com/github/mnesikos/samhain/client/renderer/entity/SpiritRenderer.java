@@ -36,6 +36,7 @@ public class SpiritRenderer extends EntityRenderer<SpiritEntity> {
                 GlStateManager.enableBlend();
                 GlStateManager.color4f(0.49803921568f, 0.70588235294f, 1, 0.65F);
                 renderer.doRender(entity, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);
+                GlStateManager.disableBlend();
             }
         }
     }

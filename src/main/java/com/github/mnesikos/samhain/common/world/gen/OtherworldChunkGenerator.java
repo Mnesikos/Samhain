@@ -1,6 +1,8 @@
 package com.github.mnesikos.samhain.common.world.gen;
 
 import com.github.mnesikos.samhain.init.ModEntities;
+import com.github.mnesikos.samhain.init.ModFeatures;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
@@ -9,9 +11,9 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.provider.BiomeProvider;
-import net.minecraft.world.gen.NoiseChunkGenerator;
-import net.minecraft.world.gen.OctavesNoiseGenerator;
-import net.minecraft.world.gen.OverworldGenSettings;
+import net.minecraft.world.gen.*;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.NoFeatureConfig;
 
 import java.util.*;
 
@@ -112,6 +114,17 @@ public class OtherworldChunkGenerator extends NoiseChunkGenerator<OverworldGenSe
         double lvt_8_1_ = 8.555149841308594D;
         double lvt_10_1_ = 4.277574920654297D;
         this.func_222546_a(doubles, i, i1, lvt_4_1_, lvt_6_1_, lvt_8_1_, lvt_10_1_, 3, -10);
+    }
+
+    @Override
+    public void decorate(WorldGenRegion p_202092_1_) {
+        super.decorate(p_202092_1_);
+        BlockPos pos = new BlockPos(p_202092_1_.getMainChunkX() * 16 + p_202092_1_.getRandom().nextInt(32) - 16, 0, p_202092_1_.getMainChunkZ() * 16 + p_202092_1_.getRandom().nextInt(32) - 16);
+        if(p_202092_1_.getRandom().nextBoolean()) p_202092_1_.setBlockState(p_202092_1_.getHeight(Heightmap.Type.WORLD_SURFACE, pos), Blocks.COBWEB.getDefaultState(), 2);
+        else {
+            Feature<NoFeatureConfig> feature = p_202092_1_.getRandom().nextBoolean() ? ModFeatures.GRAVEYARD : ModFeatures.PUMPKIN_PATCH;
+            feature.place(p_202092_1_, this, p_202092_1_.getRandom(), pos, new NoFeatureConfig());
+        }
     }
 
     public List<Biome.SpawnListEntry> getPossibleCreatures(EntityClassification p_177458_1_, BlockPos p_177458_2_) {
