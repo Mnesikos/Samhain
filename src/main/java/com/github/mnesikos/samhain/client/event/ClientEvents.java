@@ -9,12 +9,13 @@ import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.fluid.IFluidState;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @SuppressWarnings("unused")
-@Mod.EventBusSubscriber(modid = Samhain.MOD_ID)
+@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = Samhain.MOD_ID)
 public class ClientEvents {
 
     @SubscribeEvent

@@ -23,7 +23,7 @@ import net.minecraft.world.storage.WorldInfo;
 
 public class OtherworldPortalBlock extends ModBlock {
     public OtherworldPortalBlock() {
-        super("otherworld_portal", Block.Properties.create(Material.WOOD).hardnessAndResistance(2.0F).sound(SoundType.WOOD));
+        super("otherworld_portal", Block.Properties.create(Material.WOOD).hardnessAndResistance(2.0F).sound(SoundType.WOOD), false);
     }
 
     @Override

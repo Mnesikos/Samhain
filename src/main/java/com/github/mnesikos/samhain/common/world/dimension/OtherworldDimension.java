@@ -37,7 +37,7 @@ public class OtherworldDimension extends Dimension {
 
     public OtherworldDimension(World p_i49936_1_, DimensionType p_i49936_2_) {
         super(p_i49936_1_, p_i49936_2_);
-        this.setSkyRenderer(this::renderSky);
+        if(getWorld().isRemote) this.setSkyRenderer(this::renderSky);
     }
 
     @Override
