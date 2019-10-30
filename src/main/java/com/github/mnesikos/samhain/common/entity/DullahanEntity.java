@@ -86,6 +86,8 @@ public class DullahanEntity extends SamhainCreatureEntity {
                 if (this.getRidingEntity() != null)
                     this.getRidingEntity().remove();
                 this.remove();
+            } else if (!(entity instanceof PlayerEntity)) {
+                return false;
             }
 
             return super.attackEntityFrom(source, amount);

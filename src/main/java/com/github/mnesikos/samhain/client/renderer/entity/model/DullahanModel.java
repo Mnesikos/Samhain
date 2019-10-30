@@ -3,6 +3,7 @@ package com.github.mnesikos.samhain.client.renderer.entity.model;
 import com.github.mnesikos.samhain.common.entity.DullahanEntity;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
+import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -60,8 +61,8 @@ public class DullahanModel<T extends DullahanEntity> extends PlayerModel<T> {
         }
         this.bipedLeftArmwear.copyModelAngles(bipedLeftArm);
         this.bipedRightArmwear.copyModelAngles(bipedRightArm);
-        this.bipedHead.setRotationPoint(0.0F, 13.0F, 0.0F);
-        this.bipedHead.rotateAngleX = -0.5F;
+        this.bipedHead.setRotationPoint(0.0F, 16.0F, 2.0F);
+        this.bipedHead.rotateAngleX = 0.5F;
         this.bipedHeadwear.copyModelAngles(bipedHead);
     }
 }
