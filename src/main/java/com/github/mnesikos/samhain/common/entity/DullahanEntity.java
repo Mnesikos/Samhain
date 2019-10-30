@@ -9,11 +9,7 @@ import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
-import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -71,6 +67,11 @@ public class DullahanEntity extends SamhainCreatureEntity {
         }
 
         super.livingTick();
+    }
+
+    @Override
+    public double getMountedYOffset() {
+        return super.getMountedYOffset() - 0.3;
     }
 
     @Override

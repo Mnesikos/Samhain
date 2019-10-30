@@ -29,7 +29,6 @@ public class ModDimensions extends ModRegistry<ModDimension> {
     public static void setType(ModDimension dimension, boolean light) {
         //creates the type and stores it per key, key being the dimension, only if dimension type isn't already created
         ResourceLocation key = Objects.requireNonNull(dimension.getRegistryName());
-        //todo find a way to do this without getting the registry, look into SavedEntry and all the stuff in RegisterDimensionsEvent
-        ModDimensions.TYPES.put(dimension, DimensionManager.getRegistry().containsKey(key) ? DimensionManager.getRegistry().getOrDefault(key) : DimensionManager.registerDimension(key, dimension, null, light));
+        ModDimensions.TYPES.put(dimension, DimensionType.byName(key) == null ? DimensionManager.registerDimension(key, dimension, null, light) : DimensionType.byName(key));
     }
 }
