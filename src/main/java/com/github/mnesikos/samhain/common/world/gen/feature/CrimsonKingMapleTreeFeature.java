@@ -16,7 +16,7 @@ import java.util.Set;
 
 public class CrimsonKingMapleTreeFeature extends AbstractTreeFeature<NoFeatureConfig> {
     public static final BlockState LOG = ModBlocks.CRIMSON_KING_MAPLE_LOG.getDefaultState();
-    public static final BlockState LEAVES = ModBlocks.CRIMSON_KING_MAPLE_LEAVES.getDefaultState().with(LeavesBlock.PERSISTENT, true);
+    public static final BlockState LEAVES = ModBlocks.CRIMSON_KING_MAPLE_LEAVES.getDefaultState();
 
     public CrimsonKingMapleTreeFeature(boolean doBlockNofityOnPlace) {
         super(NoFeatureConfig::deserialize, doBlockNofityOnPlace);

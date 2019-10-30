@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "planks",
+  "ingredients": [
+    {
+      "tag": "samhain:samhain_logs"
+    }
+  ],
+  "result": {
+    "item": "samhain:crimson_king_maple_planks",
+    "count": 4
+  }
+}

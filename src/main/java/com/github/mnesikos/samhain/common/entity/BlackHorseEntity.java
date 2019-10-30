@@ -118,7 +118,7 @@ public class BlackHorseEntity extends AbstractHorseEntity {
 
     @Override
     public void livingTick() {
-        if (this.world.isRemote) {
+        /*if (this.world.isRemote) {
             for(int i = 0; i < 2; ++i) {
                 this.world.addParticle(ParticleTypes.FLAME,
                         this.posX + (this.rand.nextDouble() - 0.5D) * (double)this.getWidth(),
@@ -127,7 +127,7 @@ public class BlackHorseEntity extends AbstractHorseEntity {
                         (this.rand.nextDouble() - 0.5D) * 2.0D, -this.rand.nextDouble(),
                         (this.rand.nextDouble() - 0.5D) * 2.0D); // todo get this particle shit together
             }
-        }
+        }*/
 
         if (this.isTame() && this.hasDullahan()) {
             /*if (this.getOwnerUniqueId() != null && this.getDullahan() != null && !this.getDullahan().isAlive()) {
