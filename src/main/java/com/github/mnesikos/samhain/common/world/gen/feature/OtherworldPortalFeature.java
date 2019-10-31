@@ -53,22 +53,36 @@ public class OtherworldPortalFeature extends Feature<NoFeatureConfig> {
                 }*/
 
                 int k2 = posY + j2;
-                BlockPos blockpos1 = new BlockPos(posX1, k2, posZ1);
-                if (isAirOrLeaves(worldIn, blockpos1)) { // trunk
-                    this.create3x3(worldIn, blockpos1);
+                BlockPos trunkPos = new BlockPos(posX1, k2, posZ1);
+                if (isAirOrLeaves(worldIn, trunkPos)) { // trunk
+                    this.create3x3(worldIn, trunkPos);
                 }
             }
 
-            for (int p = 0; p < 3; p++) setBlockState(worldIn, portalPos.up(p), ModBlocks.OTHERWORLD_PORTAL.getDefaultState());
+            for (int p = 0; p < 3; p++) { // portal & 1 random side open
+                setBlockState(worldIn, portalPos.up(p), ModBlocks.OTHERWORLD_PORTAL.getDefaultState());
+                int open = rand.nextInt(4);
+                switch (open) { // todo test this - ran out of time
+                    case 0: default:
+                        setBlockState(worldIn, pos.east().up(p), Blocks.CAVE_AIR.getDefaultState());
+                    case 1:
+                        setBlockState(worldIn, pos.west().up(p), Blocks.CAVE_AIR.getDefaultState());
+                    case 2:
+                        setBlockState(worldIn, pos.north().up(p), Blocks.CAVE_AIR.getDefaultState());
+                    case 3:
+                        setBlockState(worldIn, pos.south().up(p), Blocks.CAVE_AIR.getDefaultState());
+                }
+            }
 
-            /*for (int j3 = -2; j3 <= 0; ++j3) {
-                for (int i4 = -2; i4 <= 0; ++i4) {
-                    int l4 = -1;
+            /*for (int j3 = -2; j3 <= 0; ++j3) { // X + -2~0
+                for (int i4 = -2; i4 <= 0; ++i4) { // Z + -2~0
+                    int l4 = -1; // (height - 1) + -1
                     this.replaceAirWithLeaves(worldIn, posX1 + j3, i2 + l4, posZ1 + i4);
                     this.replaceAirWithLeaves(worldIn, 1 + posX1 - j3, i2 + l4, posZ1 + i4);
                     this.replaceAirWithLeaves(worldIn, posX1 + j3, i2 + l4, 1 + posZ1 - i4);
                     this.replaceAirWithLeaves(worldIn, 1 + posX1 - j3, i2 + l4, 1 + posZ1 - i4);
-                    if ((j3 > -2 || i4 > -1) && (j3 != -1 || i4 != -2)) {
+                    if ((j3 > -2 || i4 > -1) && (j3 != -1 || i4 != -2)) { // ???? wtf
+                    // (j3 == -1~0 || i4 == 0) && (j3 == -2 or 0 || i4 == -1~0)
                         l4 = 1;
                         this.replaceAirWithLeaves(worldIn, posX1 + j3, i2 + l4, posZ1 + i4);
                         this.replaceAirWithLeaves(worldIn, 1 + posX1 - j3, i2 + l4, posZ1 + i4);
