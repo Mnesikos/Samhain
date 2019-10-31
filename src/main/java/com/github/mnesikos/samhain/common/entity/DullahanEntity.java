@@ -66,6 +66,8 @@ public class DullahanEntity extends SamhainCreatureEntity {
             }
         }
 
+        if(getAttackTarget() != null) getLookController().setLookPositionWithEntity(getAttackTarget(), 0, 0);
+
         super.livingTick();
     }
 

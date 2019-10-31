@@ -8,12 +8,14 @@ import com.github.mnesikos.samhain.common.entity.*;
 import com.github.mnesikos.samhain.init.*;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.gen.ChunkGeneratorType;
 import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.MultipleRandomFeatureConfig;
@@ -55,8 +57,8 @@ public class CommonRegistries {
     public static void registerBiomes(final RegistryEvent.Register<Biome> event) {
         for (Biome biome : ForgeRegistries.BIOMES) {
             if(!BiomeDictionary.hasType(biome, BiomeDictionary.Type.WATER)) {
-                biome.getSpawns(EntityClassification.MONSTER).add(new Biome.SpawnListEntry(ModEntities.LADY_GWEN, 1, 1, 1));
-                biome.getSpawns(EntityClassification.MONSTER).add(new Biome.SpawnListEntry(ModEntities.DULLAHAN, 2, 1, 1));
+                biome.getSpawns(EntityClassification.CREATURE).add(new Biome.SpawnListEntry(ModEntities.LADY_GWEN, 1, 1, 1));
+                biome.getSpawns(EntityClassification.CREATURE).add(new Biome.SpawnListEntry(ModEntities.DULLAHAN, 2, 1, 1));
                 /*biome.getSpawns(EntityClassification.MONSTER).add(new Biome.SpawnListEntry(ModEntities.SPIRIT, 2, 1, 2));*/
 
             }
@@ -70,6 +72,8 @@ public class CommonRegistries {
     public static void registerEntities(final RegistryEvent.Register<EntityType<?>> event) {
         ModRegistry.register(event.getRegistry(), ModEntities::new);
         CapabilityManager.INSTANCE.register(DimensionItemHolder.class, new DimensionCapabilityProvider.HolderStorage(), DimensionCapabilityProvider::new);
+        EntitySpawnPlacementRegistry.register(ModEntities.DULLAHAN, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, SamhainCreatureEntity::canSpawn);
+        EntitySpawnPlacementRegistry.register(ModEntities.LADY_GWEN, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, SamhainCreatureEntity::canSpawn);
     }
 
     @SubscribeEvent
