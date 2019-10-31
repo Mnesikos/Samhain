@@ -58,14 +58,15 @@ public class CommonRegistries {
         for (Biome biome : ForgeRegistries.BIOMES) {
             if(!BiomeDictionary.hasType(biome, BiomeDictionary.Type.WATER)) {
                 biome.getSpawns(EntityClassification.CREATURE).add(new Biome.SpawnListEntry(ModEntities.LADY_GWEN, 1, 1, 1));
-                biome.getSpawns(EntityClassification.CREATURE).add(new Biome.SpawnListEntry(ModEntities.DULLAHAN, 2, 1, 1));
+                biome.getSpawns(EntityClassification.CREATURE).add(new Biome.SpawnListEntry(ModEntities.DULLAHAN, 1, 1, 1));
                 /*biome.getSpawns(EntityClassification.MONSTER).add(new Biome.SpawnListEntry(ModEntities.SPIRIT, 2, 1, 2));*/
 
             }
         }
         //for (Biome biome : BiomeDictionary.getBiomes(BiomeDictionary.Type.FOREST)) biome.getSpawns(EntityClassification.CREATURE).add(new Biome.SpawnListEntry(ModEntities.SIDHE, 1, 3, 6));
         Biomes.FOREST.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Biome.createDecoratedFeature(Feature.RANDOM_SELECTOR, new MultipleRandomFeatureConfig(new Feature[]{ModFeatures.CRIMSON_KING_MAPLE_TREE}, new IFeatureConfig[]{IFeatureConfig.NO_FEATURE_CONFIG}, new float[]{0.01F}, ModFeatures.CRIMSON_KING_MAPLE_TREE, IFeatureConfig.NO_FEATURE_CONFIG), Placement.COUNT_EXTRA_HEIGHTMAP, new AtSurfaceWithExtraConfig(0, 0.1F, 1)));
-        Biomes.FOREST.addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, Biome.createDecoratedFeature(Feature.RANDOM_SELECTOR, new MultipleRandomFeatureConfig(new Feature[]{ModFeatures.OTHERWORLD_PORTAL}, new IFeatureConfig[]{IFeatureConfig.NO_FEATURE_CONFIG}, new float[]{0.1F}, ModFeatures.OTHERWORLD_PORTAL, IFeatureConfig.NO_FEATURE_CONFIG), Placement.COUNT_EXTRA_HEIGHTMAP, new AtSurfaceWithExtraConfig(0, 0, 1)));
+        Biomes.FOREST.addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, Biome.createDecoratedFeature(Feature.RANDOM_SELECTOR, new MultipleRandomFeatureConfig(new Feature[]{ModFeatures.OTHERWORLD_PORTAL}, new IFeatureConfig[]{IFeatureConfig.NO_FEATURE_CONFIG}, new float[]{0.1F}, ModFeatures.OTHERWORLD_PORTAL, IFeatureConfig.NO_FEATURE_CONFIG), Placement.COUNT_EXTRA_HEIGHTMAP, new AtSurfaceWithExtraConfig(0, 0.1F, 1)));
+        // todo make the portal rare again before release! (make sure it actually spawns tho lol)
     }
 
     @SubscribeEvent
