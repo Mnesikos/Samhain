@@ -22,7 +22,7 @@ public class ClientEvents {
     public static void renderFog(EntityViewRenderEvent.FogColors event) {
         //rendering the water fog in the otherworld
         World world = Minecraft.getInstance().world;
-        if(world.dimension.getType() == ModDimensions.TYPES.get(ModDimensions.OTHERWORLD)) {
+        if(world.dimension.getType() == ModDimensions.OTHERWORLD.getType()) {
             ActiveRenderInfo info = event.getInfo();
             IFluidState ifluidstate = info.getFluidState();
             if (ifluidstate.isTagged(FluidTags.WATER)) {

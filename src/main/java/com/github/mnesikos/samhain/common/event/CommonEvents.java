@@ -5,8 +5,8 @@ import com.github.mnesikos.samhain.common.capability.DimensionCapabilityProvider
 import com.github.mnesikos.samhain.init.ModDimensions;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.ListNBT;
-import net.minecraft.world.World;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -40,11 +40,10 @@ public class CommonEvents {
     @SubscribeEvent
     public static void changeDimension(EntityTravelToDimensionEvent event) {
         Entity entity = event.getEntity();
-        if(entity instanceof PlayerEntity) {
-            PlayerEntity player = (PlayerEntity) entity;
-            World world = player.world;
+        if(entity instanceof ServerPlayerEntity) {
+            ServerPlayerEntity player = (ServerPlayerEntity) entity;
             player.getCapability(DimensionCapabilityProvider.CAPABILITY).ifPresent(itemHolder -> {
-                if (event.getDimension() == ModDimensions.TYPES.get(ModDimensions.OTHERWORLD)) {
+                if (event.getDimension() == ModDimensions.OTHERWORLD.getType()) {
                     itemHolder.inventory = player.inventory.write(new ListNBT());
                     player.inventory.clear();
                 } else if(itemHolder.inventory != null) {

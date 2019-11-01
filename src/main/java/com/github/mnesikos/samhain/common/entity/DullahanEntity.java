@@ -41,8 +41,7 @@ public class DullahanEntity extends SamhainCreatureEntity {
     @Nullable
     @Override
     public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficultyInstance, SpawnReason spawnReason, @Nullable ILivingEntityData entityData, @Nullable CompoundNBT nbt) {
-        this.setVariant(this.getRNG().nextInt(5));
-
+        entityData = super.onInitialSpawn(world, difficultyInstance, spawnReason, entityData, nbt);
         BlackHorseEntity horse = (BlackHorseEntity) ModEntities.BLACK_HORSE.spawn(this.world, null, null, this.getPosition().add(1.0F, 1.0F, 1.0F), spawnReason, false, false);
         if (horse != null) {
             this.startRiding(horse);
@@ -51,7 +50,12 @@ public class DullahanEntity extends SamhainCreatureEntity {
             horse.setHasDullahan(true);
         }
 
-        return super.onInitialSpawn(world, difficultyInstance, spawnReason, entityData, nbt);
+        return entityData;
+    }
+
+    @Override
+    public int variantNumber() {
+        return super.variantNumber() + 4;
     }
 
     @Override

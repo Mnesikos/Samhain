@@ -17,7 +17,7 @@ import java.util.function.BiFunction;
 
 public class ModDimensions extends ModRegistry<ModDimension> {
     public static final Map<ModDimension, DimensionType> TYPES = new HashMap<>();
-    public static final ModDimension OTHERWORLD = create("otherworld", OtherworldDimension::new);
+    public static final DimensionBase OTHERWORLD = create("otherworld", OtherworldDimension::new);
 
     private static DimensionBase create(String name, BiFunction<World, DimensionType, ? extends Dimension> factory) {
         ResourceLocation id = new ResourceLocation(Samhain.MOD_ID, name);

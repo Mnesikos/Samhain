@@ -39,21 +39,14 @@ public class OtherworldPortalFeature extends Feature<NoFeatureConfig> {
             this.setDirtAt(worldIn, base.down().south().west(), pos);
 
             Direction direction = Direction.Plane.HORIZONTAL.random(rand);
+            //why is this all a thing? almost everything is unused
             int height1 = height - rand.nextInt(4); // height - 0~3 // max = 9, min = 3
             int j1 = 2 - rand.nextInt(3); // 2 - 0~2 // max = 2, min = 0
-            int posX1 = posX;
-            int posZ1 = posZ;
             int i2 = posY + height - 1;
             BlockPos portalPos = base.up();
             for (int j2 = 0; j2 < height; ++j2) {
-                /*if (j2 >= height1 && j1 > 0) { // wtf is this?
-                    posX1 += direction.getXOffset();
-                    posZ1 += direction.getZOffset();
-                    --j1;
-                }*/
-
                 int k2 = posY + j2;
-                BlockPos trunkPos = new BlockPos(posX1, k2, posZ1);
+                BlockPos trunkPos = new BlockPos(posX, k2, posZ);
                 if (isAirOrLeaves(worldIn, trunkPos)) { // trunk
                     this.create3x3(worldIn, trunkPos);
                 }
@@ -61,17 +54,7 @@ public class OtherworldPortalFeature extends Feature<NoFeatureConfig> {
 
             for (int p = 0; p < 3; p++) { // portal & 1 random side open
                 setBlockState(worldIn, portalPos.up(p), ModBlocks.OTHERWORLD_PORTAL.getDefaultState());
-                int open = rand.nextInt(4);
-                switch (open) { // todo test this - ran out of time
-                    case 0: default:
-                        setBlockState(worldIn, pos.east().up(p), Blocks.CAVE_AIR.getDefaultState());
-                    case 1:
-                        setBlockState(worldIn, pos.west().up(p), Blocks.CAVE_AIR.getDefaultState());
-                    case 2:
-                        setBlockState(worldIn, pos.north().up(p), Blocks.CAVE_AIR.getDefaultState());
-                    case 3:
-                        setBlockState(worldIn, pos.south().up(p), Blocks.CAVE_AIR.getDefaultState());
-                }
+                setBlockState(worldIn, pos.offset(direction).up(p), Blocks.CAVE_AIR.getDefaultState());
             }
 
             /*for (int j3 = -2; j3 <= 0; ++j3) { // X + -2~0
@@ -164,7 +147,7 @@ public class OtherworldPortalFeature extends Feature<NoFeatureConfig> {
     }
 
     private void setDirtAt(IWorld worldIn, BlockPos pos, BlockPos origin) {
-        worldIn.getBlockState(pos).onPlantGrow((IWorld)worldIn, pos, origin);
+        worldIn.getBlockState(pos).onPlantGrow(worldIn, pos, origin);
     }
 
     private boolean isAir(IWorld worldIn, BlockPos pos) {

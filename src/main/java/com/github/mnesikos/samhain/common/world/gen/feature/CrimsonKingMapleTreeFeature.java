@@ -2,7 +2,6 @@ package com.github.mnesikos.samhain.common.world.gen.feature;
 
 import com.github.mnesikos.samhain.init.ModBlocks;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.LeavesBlock;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
@@ -68,31 +67,31 @@ public class CrimsonKingMapleTreeFeature extends AbstractTreeFeature<NoFeatureCo
                 for(int j3 = -2; j3 <= 0; ++j3) {
                     for(int i4 = -2; i4 <= 0; ++i4) {
                         int l4 = -1;
-                        this.func_214617_a(worldIn, k1 + j3, i2 + l4, l1 + i4, boundsIn, changedBlocks);
-                        this.func_214617_a(worldIn, 1 + k1 - j3, i2 + l4, l1 + i4, boundsIn, changedBlocks);
-                        this.func_214617_a(worldIn, k1 + j3, i2 + l4, 1 + l1 - i4, boundsIn, changedBlocks);
-                        this.func_214617_a(worldIn, 1 + k1 - j3, i2 + l4, 1 + l1 - i4, boundsIn, changedBlocks);
+                        this.replaceAirWithLeaves(worldIn, k1 + j3, i2 + l4, l1 + i4, boundsIn, changedBlocks);
+                        this.replaceAirWithLeaves(worldIn, 1 + k1 - j3, i2 + l4, l1 + i4, boundsIn, changedBlocks);
+                        this.replaceAirWithLeaves(worldIn, k1 + j3, i2 + l4, 1 + l1 - i4, boundsIn, changedBlocks);
+                        this.replaceAirWithLeaves(worldIn, 1 + k1 - j3, i2 + l4, 1 + l1 - i4, boundsIn, changedBlocks);
                         if ((j3 > -2 || i4 > -1) && (j3 != -1 || i4 != -2)) {
                             l4 = 1;
-                            this.func_214617_a(worldIn, k1 + j3, i2 + l4, l1 + i4, boundsIn, changedBlocks);
-                            this.func_214617_a(worldIn, 1 + k1 - j3, i2 + l4, l1 + i4, boundsIn, changedBlocks);
-                            this.func_214617_a(worldIn, k1 + j3, i2 + l4, 1 + l1 - i4, boundsIn, changedBlocks);
-                            this.func_214617_a(worldIn, 1 + k1 - j3, i2 + l4, 1 + l1 - i4, boundsIn, changedBlocks);
+                            this.replaceAirWithLeaves(worldIn, k1 + j3, i2 + l4, l1 + i4, boundsIn, changedBlocks);
+                            this.replaceAirWithLeaves(worldIn, 1 + k1 - j3, i2 + l4, l1 + i4, boundsIn, changedBlocks);
+                            this.replaceAirWithLeaves(worldIn, k1 + j3, i2 + l4, 1 + l1 - i4, boundsIn, changedBlocks);
+                            this.replaceAirWithLeaves(worldIn, 1 + k1 - j3, i2 + l4, 1 + l1 - i4, boundsIn, changedBlocks);
                         }
                     }
                 }
 
                 if (rand.nextBoolean()) {
-                    this.func_214617_a(worldIn, k1, i2 + 2, l1, boundsIn, changedBlocks);
-                    this.func_214617_a(worldIn, k1 + 1, i2 + 2, l1, boundsIn, changedBlocks);
-                    this.func_214617_a(worldIn, k1 + 1, i2 + 2, l1 + 1, boundsIn, changedBlocks);
-                    this.func_214617_a(worldIn, k1, i2 + 2, l1 + 1, boundsIn, changedBlocks);
+                    this.replaceAirWithLeaves(worldIn, k1, i2 + 2, l1, boundsIn, changedBlocks);
+                    this.replaceAirWithLeaves(worldIn, k1 + 1, i2 + 2, l1, boundsIn, changedBlocks);
+                    this.replaceAirWithLeaves(worldIn, k1 + 1, i2 + 2, l1 + 1, boundsIn, changedBlocks);
+                    this.replaceAirWithLeaves(worldIn, k1, i2 + 2, l1 + 1, boundsIn, changedBlocks);
                 }
 
                 for(int k3 = -3; k3 <= 4; ++k3) {
                     for(int j4 = -3; j4 <= 4; ++j4) {
                         if ((k3 != -3 || j4 != -3) && (k3 != -3 || j4 != 4) && (k3 != 4 || j4 != -3) && (k3 != 4 || j4 != 4) && (Math.abs(k3) < 3 || Math.abs(j4) < 3)) {
-                            this.func_214617_a(worldIn, k1 + k3, i2, l1 + j4, boundsIn, changedBlocks);
+                            this.replaceAirWithLeaves(worldIn, k1 + k3, i2, l1 + j4, boundsIn, changedBlocks);
                         }
                     }
                 }
@@ -108,14 +107,14 @@ public class CrimsonKingMapleTreeFeature extends AbstractTreeFeature<NoFeatureCo
 
                             for(int j5 = -1; j5 <= 1; ++j5) {
                                 for(int i3 = -1; i3 <= 1; ++i3) {
-                                    this.func_214617_a(worldIn, k1 + l3 + j5, i2, l1 + k4 + i3, boundsIn, changedBlocks);
+                                    this.replaceAirWithLeaves(worldIn, k1 + l3 + j5, i2, l1 + k4 + i3, boundsIn, changedBlocks);
                                 }
                             }
 
                             for(int k5 = -2; k5 <= 2; ++k5) {
                                 for(int l5 = -2; l5 <= 2; ++l5) {
                                     if (Math.abs(k5) != 2 || Math.abs(l5) != 2) {
-                                        this.func_214617_a(worldIn, k1 + l3 + k5, i2 - 1, l1 + k4 + l5, boundsIn, changedBlocks);
+                                        this.replaceAirWithLeaves(worldIn, k1 + l3 + k5, i2 - 1, l1 + k4 + l5, boundsIn, changedBlocks);
                                     }
                                 }
                             }
@@ -165,7 +164,7 @@ public class CrimsonKingMapleTreeFeature extends AbstractTreeFeature<NoFeatureCo
 
     }
 
-    private void func_214617_a(IWorldGenerationReader generationReader, int x, int y, int z, MutableBoundingBox mutableBoundingBox, Set<BlockPos> blockPos) {
+    private void replaceAirWithLeaves(IWorldGenerationReader generationReader, int x, int y, int z, MutableBoundingBox mutableBoundingBox, Set<BlockPos> blockPos) {
         BlockPos blockpos = new BlockPos(x, y, z);
         if (isAir(generationReader, blockpos)) {
             this.setLogState(blockPos, generationReader, blockpos, LEAVES, mutableBoundingBox);

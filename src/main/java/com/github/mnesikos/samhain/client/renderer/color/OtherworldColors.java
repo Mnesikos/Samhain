@@ -15,7 +15,7 @@ public class OtherworldColors {
     }
 
     public static int getFoliageColor(IEnviromentBlockReader p_217615_0_, BlockPos p_217615_1_) {
-        return getColor(0x3c2161, BiomeColors.getFoliageColor(p_217615_0_, p_217615_1_));
+        return getColor(0xf5a345, BiomeColors.getFoliageColor(p_217615_0_, p_217615_1_));
     }
 
     public static int getWaterColor(IEnviromentBlockReader p_217612_0_, BlockPos p_217612_1_) {
@@ -46,6 +46,6 @@ public class OtherworldColors {
     }
 
     private static boolean inOtherworld() {
-        return Minecraft.getInstance().world.dimension.getType() == ModDimensions.TYPES.get(ModDimensions.OTHERWORLD);
+        return Minecraft.getInstance().world.dimension.getType() == ModDimensions.OTHERWORLD.getType();
     }
 }

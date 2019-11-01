@@ -28,7 +28,9 @@ import net.minecraft.world.gen.OverworldGenSettings;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.ForgeHooksClient;
+import net.minecraftforge.client.IRenderHandler;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class OtherworldDimension extends Dimension {
@@ -37,7 +39,6 @@ public class OtherworldDimension extends Dimension {
 
     public OtherworldDimension(World p_i49936_1_, DimensionType p_i49936_2_) {
         super(p_i49936_1_, p_i49936_2_);
-        if(getWorld().isRemote) this.setSkyRenderer(this::renderSky);
     }
 
     @Override
@@ -205,6 +206,17 @@ public class OtherworldDimension extends Dimension {
     @Override
     public boolean doesXZShowFog(int x, int z) {
         return true;
+    }
+
+    @Nonnull
+    @Override
+    public IRenderHandler getSkyRenderer() {
+        IRenderHandler renderer = super.getSkyRenderer();
+        if(renderer == null) {
+            renderer = this::renderSky;
+            this.setSkyRenderer(renderer);
+        }
+        return renderer;
     }
 
     private void renderSky(int ticks, float partialTicks, ClientWorld world, Minecraft mc) {

@@ -2,6 +2,7 @@ package com.github.mnesikos.samhain.common.entity;
 
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -9,17 +10,15 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Difficulty;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.LightType;
-import net.minecraft.world.World;
+import net.minecraft.world.*;
 
+import javax.annotation.Nullable;
 import java.util.Random;
 
 public abstract class SamhainCreatureEntity extends CreatureEntity {
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(SamhainCreatureEntity.class, DataSerializers.VARINT);
 
-    public SamhainCreatureEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
+    SamhainCreatureEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
         super(type, worldIn);
     }
 
@@ -42,6 +41,14 @@ public abstract class SamhainCreatureEntity extends CreatureEntity {
         return p_223325_1_.getDifficulty() != Difficulty.PEACEFUL && testSpawn(p_223325_1_, p_223325_3_, p_223325_4_) && func_223315_a(p_223325_0_, p_223325_1_, p_223325_2_, p_223325_3_, p_223325_4_);
     }
 
+    @Nullable
+    @Override
+    public ILivingEntityData onInitialSpawn(IWorld p_213386_1_, DifficultyInstance p_213386_2_, SpawnReason p_213386_3_, @Nullable ILivingEntityData p_213386_4_, @Nullable CompoundNBT p_213386_5_) {
+        p_213386_4_ = super.onInitialSpawn(p_213386_1_, p_213386_2_, p_213386_3_, p_213386_4_, p_213386_5_);
+        if(variantNumber() > 1) this.setVariant(rand.nextInt(variantNumber()));
+        return p_213386_4_;
+    }
+
     @Override
     public void livingTick() {
         if (this.isInDaylight())
@@ -58,11 +65,15 @@ public abstract class SamhainCreatureEntity extends CreatureEntity {
         }
     }
 
+    public int variantNumber() {
+        return 1;
+    }
+
     public int getVariant() {
         return this.dataManager.get(VARIANT);
     }
 
-    void setVariant(int variant) {
+    private void setVariant(int variant) {
         this.dataManager.set(VARIANT, variant);
     }
 
@@ -82,6 +93,4 @@ public abstract class SamhainCreatureEntity extends CreatureEntity {
     public boolean canBeLeashedTo(PlayerEntity player) {
         return player.isCreative();
     }
-
-
 }

@@ -15,6 +15,7 @@ import net.minecraft.world.gen.*;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraftforge.common.BiomeDictionary;
 
 import java.util.*;
 
@@ -121,18 +122,21 @@ public class OtherworldChunkGenerator extends NoiseChunkGenerator<OverworldGenSe
     public void decorate(WorldGenRegion p_202092_1_) {
         super.decorate(p_202092_1_);
         int chunk = 16;
-        BlockPos pos = new BlockPos(p_202092_1_.getMainChunkX() * chunk + p_202092_1_.getRandom().nextInt(chunk * 2) - chunk, 0, p_202092_1_.getMainChunkZ() * chunk + p_202092_1_.getRandom().nextInt(chunk * 2) - chunk);
-        switch (p_202092_1_.getRandom().nextInt(3)) {
-            case 0:
-                p_202092_1_.setBlockState(p_202092_1_.getHeight(Heightmap.Type.WORLD_SURFACE, pos), Blocks.COBWEB.getDefaultState(), 2);
-                break;
-            case 1:
-                Feature<NoFeatureConfig> feature = p_202092_1_.getRandom().nextBoolean() ? ModFeatures.GRAVEYARD : ModFeatures.PUMPKIN_PATCH;
-                feature.place(p_202092_1_, this, p_202092_1_.getRandom(), pos, IFeatureConfig.NO_FEATURE_CONFIG);
-                break;
-            case 2:
-                ModFeatures.CRIMSON_KING_MAPLE_TREE.place(world, this, p_202092_1_.getRandom(), pos, IFeatureConfig.NO_FEATURE_CONFIG);
-                break;
+        Random rand = p_202092_1_.getRandom();
+        BlockPos pos = new BlockPos(p_202092_1_.getMainChunkX() * chunk + rand.nextInt(chunk * 2) - chunk, 0, p_202092_1_.getMainChunkZ() * chunk + rand.nextInt(chunk * 2) - chunk);
+        if(!BiomeDictionary.hasType(p_202092_1_.getBiome(pos), BiomeDictionary.Type.WATER)) {
+            switch (rand.nextInt(3)) {
+                case 0:
+                    p_202092_1_.setBlockState(p_202092_1_.getHeight(Heightmap.Type.WORLD_SURFACE, pos), Blocks.COBWEB.getDefaultState(), 2);
+                    break;
+                case 1:
+                    Feature<NoFeatureConfig> feature = rand.nextBoolean() ? ModFeatures.GRAVEYARD : ModFeatures.PUMPKIN_PATCH;
+                    feature.place(p_202092_1_, this, rand, pos, IFeatureConfig.NO_FEATURE_CONFIG);
+                    break;
+                case 2:
+                    ModFeatures.CRIMSON_KING_MAPLE_TREE.place(world, this, rand, pos, IFeatureConfig.NO_FEATURE_CONFIG);
+                    break;
+            }
         }
     }
 

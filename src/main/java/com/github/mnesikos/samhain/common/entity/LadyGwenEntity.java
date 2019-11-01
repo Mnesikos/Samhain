@@ -7,9 +7,6 @@ import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.math.Vec3d;
@@ -47,8 +44,7 @@ public class LadyGwenEntity extends SamhainCreatureEntity {
     @Nullable
     @Override
     public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficultyInstance, SpawnReason spawnReason, @Nullable ILivingEntityData entityData, @Nullable CompoundNBT nbt) {
-        this.setVariant(this.getRNG().nextInt(5));
-
+        entityData = super.onInitialSpawn(world, difficultyInstance, spawnReason, entityData, nbt);
         BlackPigEntity pig = (BlackPigEntity) ModEntities.BLACK_PIG.spawn(this.world, null, null, this.getPosition().add(1.0F, 1.0F, 1.0F), spawnReason, false, false);
         if (pig != null) {
             pig.setTamed(true);
@@ -56,7 +52,12 @@ public class LadyGwenEntity extends SamhainCreatureEntity {
             pig.setHasLadyGwen(true);
         }
 
-        return super.onInitialSpawn(world, difficultyInstance, spawnReason, entityData, nbt);
+        return entityData;
+    }
+
+    @Override
+    public int variantNumber() {
+        return super.variantNumber() + 4;
     }
 
     @Override
