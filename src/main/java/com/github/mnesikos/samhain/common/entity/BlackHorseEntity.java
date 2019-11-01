@@ -105,6 +105,14 @@ public class BlackHorseEntity extends AbstractHorseEntity {
         return null;
     }
 
+    @Override
+    public double getMountedYOffset() {
+        if (!this.getPassengers().isEmpty() && this.getControllingPassenger() instanceof DullahanEntity) {
+            return super.getMountedYOffset() - 0.3;
+        }
+        return super.getMountedYOffset();
+    }
+
     @Nullable
     @Override
     public ILivingEntityData onInitialSpawn(IWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {

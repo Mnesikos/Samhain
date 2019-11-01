@@ -76,11 +76,6 @@ public class DullahanEntity extends SamhainCreatureEntity {
     }
 
     @Override
-    public double getMountedYOffset() {
-        return super.getMountedYOffset() - 0.3;
-    }
-
-    @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
         if (this.isInvulnerableTo(source))
             return false;
