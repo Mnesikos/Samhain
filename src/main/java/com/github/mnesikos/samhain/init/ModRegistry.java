@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 @SuppressWarnings("unchecked")
 public abstract class ModRegistry<T extends IForgeRegistryEntry<T>> {
 
-    private static final Map<Class<? extends ModRegistry>, ModRegistry> REGISTRIES = new HashMap<>();
+    private static final Map<Class<? extends ModRegistry>, ModRegistry<?>> REGISTRIES = new HashMap<>();
     public final List<T> list = new ArrayList<>();
 
     public void init(IForgeRegistry<T> registry) {
@@ -25,7 +25,6 @@ public abstract class ModRegistry<T extends IForgeRegistryEntry<T>> {
                 Samhain.LOGGER.fatal("Failed to register Samhain " + registry.getRegistrySuperType().getSimpleName() + " '" + field.getName().toLowerCase() + "'", e);
             }
         }
-
         //uncomment this if you want the registered objects to be sorted by name
         /*list.sort((t, t1) -> {
             //gets names and splits by _
@@ -46,11 +45,16 @@ public abstract class ModRegistry<T extends IForgeRegistryEntry<T>> {
 
     public static <T extends IForgeRegistryEntry<T>> ModRegistry<T> make(Supplier<? extends ModRegistry<T>> type) {
         ModRegistry<T> instance = type.get();
-        REGISTRIES.put(instance.getClass(), type.get());
+        REGISTRIES.put(instance.getClass(), instance);
         return instance;
     }
 
     public static <T extends IForgeRegistryEntry<T>> void register(IForgeRegistry<T> registry, Supplier<? extends ModRegistry<T>> type) {
         make(type).init(registry);
+    }
+
+    public static <T extends IForgeRegistryEntry<T>> List<T> getRegistered(Class<? extends ModRegistry<T>> registry) {
+        ModRegistry<T> instance = (ModRegistry<T>) REGISTRIES.get(registry);
+        return instance.list;
     }
 }
